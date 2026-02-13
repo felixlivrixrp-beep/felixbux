@@ -2,53 +2,18 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FelixBux - Админ панель</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #001f3f, #0066cc);
-            min-height: 100vh;
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 20px;
         }
         
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        
-        .header {
-            background: rgba(255,255,255,0.1);
-            padding: 20px 30px;
-            border-radius: 50px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            backdrop-filter: blur(10px);
-        }
-        
-        .logo {
-            font-size: 28px;
-            font-weight: bold;
-            color: #66ccff;
-        }
-        
-        .back-link {
-            background: #66ccff;
-            color: #001f3f;
-            padding: 10px 25px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        
-        .stats {
+        .stats-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 20px;
@@ -56,114 +21,72 @@
         }
         
         .stat-card {
-            background: rgba(255,255,255,0.1);
+            background: var(--glass-bg);
             backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
             border-radius: 30px;
             padding: 25px;
             text-align: center;
-            border: 1px solid rgba(255,255,255,0.2);
         }
         
-        .stat-number {
-            font-size: 36px;
-            font-weight: bold;
-            color: #66ccff;
+        .stat-value {
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--light-blue);
             margin-bottom: 5px;
         }
         
         .stat-label {
-            color: white;
             opacity: 0.8;
         }
         
-        .orders-card {
-            background: rgba(255,255,255,0.1);
+        .orders-table {
+            background: var(--glass-bg);
             backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
             border-radius: 40px;
             padding: 30px;
-            border: 1px solid rgba(255,255,255,0.2);
+            overflow-x: auto;
         }
         
-        h2 {
-            color: white;
-            margin-bottom: 20px;
+        table {
+            width: 100%;
+            border-collapse: collapse;
         }
         
-        .order-item {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        th {
+            text-align: left;
+            padding: 15px;
+            color: var(--light-blue);
+            font-weight: 600;
+            border-bottom: 2px solid rgba(255,255,255,0.1);
         }
         
-        .order-info {
-            display: grid;
-            grid-template-columns: auto auto auto auto auto;
-            gap: 20px;
-            align-items: center;
-            flex: 1;
+        td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
         
-        .order-nick {
-            color: #66ccff;
-            font-weight: bold;
-            min-width: 100px;
-        }
-        
-        .order-amount {
-            color: white;
-            background: rgba(102,204,255,0.2);
-            padding: 5px 10px;
-            border-radius: 15px;
-            min-width: 80px;
-            text-align: center;
-        }
-        
-        .order-code {
-            font-family: monospace;
-            font-size: 18px;
-            color: #66ccff;
-            min-width: 100px;
-        }
-        
-        .order-time {
-            color: rgba(255,255,255,0.5);
-            font-size: 12px;
-            min-width: 150px;
-        }
-        
-        .status-badge {
+        .status {
             padding: 5px 12px;
             border-radius: 20px;
             font-size: 12px;
-            font-weight: bold;
-            min-width: 80px;
-            text-align: center;
+            font-weight: 500;
         }
         
         .status-waiting {
-            background: rgba(255,165,0,0.2);
+            background: rgba(255, 165, 0, 0.2);
             color: orange;
         }
         
         .status-paid {
-            background: rgba(0,255,0,0.2);
+            background: rgba(0, 255, 0, 0.2);
             color: #00ff00;
         }
         
         .status-cancelled {
-            background: rgba(255,0,0,0.2);
+            background: rgba(255, 0, 0, 0.2);
             color: #ff4444;
-        }
-        
-        .order-actions {
-            display: flex;
-            gap: 10px;
-            margin-left: 20px;
         }
         
         .action-btn {
@@ -172,8 +95,9 @@
             border-radius: 20px;
             cursor: pointer;
             font-size: 12px;
-            font-weight: bold;
-            transition: 0.3s;
+            font-weight: 500;
+            margin-right: 5px;
+            transition: all 0.3s;
         }
         
         .pay-btn {
@@ -181,51 +105,84 @@
             color: #001f3f;
         }
         
-        .pay-btn:hover {
-            background: #00cc00;
-        }
-        
         .cancel-btn {
             background: #ff4444;
             color: white;
         }
         
-        .cancel-btn:hover {
-            background: #cc0000;
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
         
-        .no-orders {
-            text-align: center;
-            color: rgba(255,255,255,0.5);
-            padding: 40px;
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .orders-table {
+                padding: 15px;
+            }
+            
+            th, td {
+                padding: 10px;
+                font-size: 14px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="gradient-bg">
+        <div class="sphere"></div>
+        <div class="sphere"></div>
+        <div class="sphere"></div>
+    </div>
+
+    <div class="admin-container">
         <div class="header">
-            <div class="logo">FelixBux Admin</div>
-            <a href="index.html" class="back-link">← На главную</a>
+            <div class="logo">
+                <span class="logo-text">FelixBux Admin</span>
+                <span class="badge">PRO</span>
+            </div>
+            <a href="index.html" class="admin-btn">← На главную</a>
         </div>
-        
-        <div class="stats">
+
+        <div class="stats-grid" id="stats">
             <div class="stat-card">
-                <div class="stat-number" id="totalOrders">0</div>
+                <div class="stat-value" id="totalOrders">0</div>
                 <div class="stat-label">Всего заказов</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number" id="paidOrders">0</div>
+                <div class="stat-value" id="paidOrders">0</div>
                 <div class="stat-label">Оплачено</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number" id="waitingOrders">0</div>
+                <div class="stat-value" id="waitingOrders">0</div>
                 <div class="stat-label">Ожидают</div>
             </div>
         </div>
-        
-        <div class="orders-card">
-            <h2>📦 Все заказы</h2>
-            <div id="ordersList"></div>
+
+        <div class="orders-table">
+            <h2 style="margin-bottom: 20px;">📋 Все заказы</h2>
+            <table id="ordersTable">
+                <thead>
+                    <tr>
+                        <th>Ник</th>
+                        <th>Робуксы</th>
+                        <th>Код</th>
+                        <th>Время</th>
+                        <th>Статус</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody id="ordersBody">
+                    <tr>
+                        <td colspan="6" style="text-align: center; opacity: 0.5; padding: 40px;">
+                            Загрузка...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
@@ -233,24 +190,21 @@
         let orders = [];
         let recentPurchases = JSON.parse(localStorage.getItem('recentPurchases') || '[]');
         
-        // Загрузка заказов
         function loadOrders() {
             orders = JSON.parse(localStorage.getItem('orders') || '[]');
             renderOrders();
             updateStats();
         }
         
-        // Обновление статистики
         function updateStats() {
             document.getElementById('totalOrders').textContent = orders.length;
             document.getElementById('paidOrders').textContent = orders.filter(o => o.status === 'paid').length;
             document.getElementById('waitingOrders').textContent = orders.filter(o => o.status === 'waiting').length;
         }
         
-        // Оплатить заказ
-        function payOrder(orderId) {
+        function payOrder(id) {
             orders = orders.map(order => {
-                if(order.id === orderId) {
+                if(order.id === id) {
                     order.status = 'paid';
                     
                     // Добавляем в недавние покупки
@@ -260,7 +214,6 @@
                         time: new Date().toLocaleTimeString()
                     });
                     
-                    // Сохраняем только последние 10
                     if(recentPurchases.length > 10) {
                         recentPurchases = recentPurchases.slice(-10);
                     }
@@ -274,11 +227,10 @@
             loadOrders();
         }
         
-        // Отменить заказ
-        function cancelOrder(orderId) {
+        function cancelOrder(id) {
             if(confirm('Отменить заказ?')) {
                 orders = orders.map(order => {
-                    if(order.id === orderId) {
+                    if(order.id === id) {
                         order.status = 'cancelled';
                     }
                     return order;
@@ -289,25 +241,29 @@
             }
         }
         
-        // Удалить заказ
-        function deleteOrder(orderId) {
+        function deleteOrder(id) {
             if(confirm('Удалить заказ навсегда?')) {
-                orders = orders.filter(order => order.id !== orderId);
+                orders = orders.filter(order => order.id !== id);
                 localStorage.setItem('orders', JSON.stringify(orders));
                 loadOrders();
             }
         }
         
-        // Показать заказы
         function renderOrders() {
-            const list = document.getElementById('ordersList');
+            const tbody = document.getElementById('ordersBody');
             
             if(orders.length === 0) {
-                list.innerHTML = '<div class="no-orders">Нет заказов</div>';
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align: center; opacity: 0.5; padding: 40px;">
+                            Нет заказов
+                        </td>
+                    </tr>
+                `;
                 return;
             }
             
-            list.innerHTML = orders.reverse().map(order => {
+            tbody.innerHTML = orders.reverse().map(order => {
                 let statusClass = 'status-waiting';
                 let statusText = 'Ожидает';
                 
@@ -320,31 +276,26 @@
                 }
                 
                 return `
-                    <div class="order-item">
-                        <div class="order-info">
-                            <span class="order-nick">${order.nick}</span>
-                            <span class="order-amount">${order.amount} Robux</span>
-                            <span class="order-code">${order.code}</span>
-                            <span class="order-time">${order.time}</span>
-                            <span class="status-badge ${statusClass}">${statusText}</span>
-                        </div>
-                        <div class="order-actions">
+                    <tr>
+                        <td><strong style="color: #66ccff;">${order.nick}</strong></td>
+                        <td>${order.amount} Robux</td>
+                        <td style="font-family: monospace; font-size: 16px;">${order.code}</td>
+                        <td style="opacity: 0.7; font-size: 14px;">${order.time}</td>
+                        <td><span class="status ${statusClass}">${statusText}</span></td>
+                        <td>
                             ${order.status === 'waiting' ? 
                                 `<button class="action-btn pay-btn" onclick="payOrder(${order.id})">✓ Оплатить</button>
                                  <button class="action-btn cancel-btn" onclick="cancelOrder(${order.id})">✗ Отменить</button>` : 
                                 `<button class="action-btn cancel-btn" onclick="deleteOrder(${order.id})">🗑 Удалить</button>`
                             }
-                        </div>
-                    </div>
+                        </td>
+                    </tr>
                 `;
             }).join('');
         }
         
-        // Загружаем при открытии
         loadOrders();
-        
-        // Обновляем каждые 5 секунд
-        setInterval(loadOrders, 5000);
+        setInterval(loadOrders, 3000);
     </script>
 </body>
 </html>
