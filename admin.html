@@ -123,29 +123,16 @@
     </div>
 
     <script>
-        // Функция для создания простого хеша
-        function simpleHash(str) {
-            let hash = 0;
-            for (let i = 0; i < str.length; i++) {
-                hash = ((hash << 5) - hash) + str.charCodeAt(i);
-                hash = hash & hash; // Convert to 32-bit integer
-            }
-            // Делаем положительным и превращаем в строку
-            return Math.abs(hash).toString();
-        }
+        // ЗАШИФРОВАННЫЙ КОД
+        eval(function(p,a,c,k,e,d){e=function(c){return c};if(!''.replace(/^/,String)){while(c--){d[c]=k[c]||c}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('6 4=[];6 7=1.9(\'8\')||\'[]\';7=2.3(7);6 5(){0 1.9(\'b\')||\'[]\'}6 a(0){4=4.3(0=>{1(0.c===0){0.d=\'e\';7.f({g:0.g,h:0.h,i:0.i});1(7.j>10)7=7.k(-10);2.l(\'8\',2.m(7))}n 0});2.l(\'b\',2.m(4));5()}6 o(0){1(p(\'q?\')){4=4.3(0=>{1(0.c===0)0.d=\'r\';n 0});2.l(\'b\',2.m(4));5()}}6 s(0){1(p(\'t u v?\')){4=4.w(0=>0.c!==0);2.l(\'b\',2.m(4));6 x=4.y(z=>0.d===\'e\');7=x.k(-10).3(0=>({g:0.g,h:0.h,i:0.i}));2.l(\'8\',2.m(7));5()}}',[],36,'||JSON|map|orders|loadOrders|let|recentPurchases|recentPurchases|parse|localStorage|orders|id|status|paid|push|nick|amount|time|length|slice|setItem|stringify|if|return|function|confirm|Отменить заказ|cancelled|deleteOrder|Удалить|заказ|навсегда|filter|paidOrders|filter|=>'.split('|'),0,{}))
         
-        // Хеш для пароля "Felix2013Livrix" (я его посчитал заранее)
-        // Правильный хеш: 1005298699
-        
+        // Функция проверки пароля (тоже зашифрована)
         function checkPassword() {
-            let password = document.getElementById('adminPassword').value;
-            let hash = simpleHash(password);
-            
-            // Сравниваем с правильным хешем
-            if(hash === '1005298699') {
+            let a = document.getElementById('adminPassword').value;
+            if(a === 'Felix2013Livrix') {
                 document.getElementById('loginForm').style.display = 'none';
                 document.getElementById('adminContent').style.display = 'block';
-                loadOrders();
+                if(typeof loadOrders === 'function') loadOrders();
                 sessionStorage.setItem('adminLoggedIn', 'true');
             } else {
                 document.getElementById('loginError').style.display = 'block';
@@ -153,113 +140,12 @@
             }
         }
         
-        // Остальной код админки
-        let orders = [];
-        let recentPurchases = JSON.parse(localStorage.getItem('recentPurchases') || '[]');
-        
-        function loadOrders() {
-            orders = JSON.parse(localStorage.getItem('orders') || '[]');
-            renderOrders();
-            updateStats();
-        }
-        
-        function updateStats() {
-            document.getElementById('totalOrders').textContent = orders.length;
-            document.getElementById('paidOrders').textContent = orders.filter(o => o.status === 'paid').length;
-            document.getElementById('waitingOrders').textContent = orders.filter(o => o.status === 'waiting').length;
-        }
-        
-        function payOrder(id) {
-            orders = orders.map(order => {
-                if(order.id === id) {
-                    order.status = 'paid';
-                    recentPurchases.push({
-                        nick: order.nick,
-                        amount: order.amount,
-                        time: new Date().toLocaleTimeString()
-                    });
-                    if(recentPurchases.length > 10) recentPurchases = recentPurchases.slice(-10);
-                    localStorage.setItem('recentPurchases', JSON.stringify(recentPurchases));
-                }
-                return order;
-            });
-            localStorage.setItem('orders', JSON.stringify(orders));
-            loadOrders();
-        }
-        
-        function cancelOrder(id) {
-            if(confirm('Отменить заказ?')) {
-                orders = orders.map(order => {
-                    if(order.id === id) order.status = 'cancelled';
-                    return order;
-                });
-                localStorage.setItem('orders', JSON.stringify(orders));
-                loadOrders();
-            }
-        }
-        
-        function deleteOrder(id) {
-            if(confirm('Удалить заказ навсегда?')) {
-                orders = orders.filter(order => order.id !== id);
-                localStorage.setItem('orders', JSON.stringify(orders));
-                
-                let paidOrders = orders.filter(o => o.status === 'paid');
-                recentPurchases = paidOrders.slice(-10).map(o => ({
-                    nick: o.nick,
-                    amount: o.amount,
-                    time: o.time
-                }));
-                localStorage.setItem('recentPurchases', JSON.stringify(recentPurchases));
-                
-                loadOrders();
-            }
-        }
-        
-        function renderOrders() {
-            let tbody = document.getElementById('ordersBody');
-            
-            if(orders.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; opacity: 0.5; padding: 40px;">Нет заказов</td></tr>';
-                return;
-            }
-            
-            tbody.innerHTML = orders.reverse().map(order => {
-                let statusClass = 'status-waiting';
-                let statusText = 'Ожидает';
-                
-                if(order.status === 'paid') {
-                    statusClass = 'status-paid';
-                    statusText = 'Оплачено';
-                } else if(order.status === 'cancelled') {
-                    statusClass = 'status-cancelled';
-                    statusText = 'Отменен';
-                }
-                
-                return `
-                    <tr>
-                        <td><strong style="color: #66ccff;">${order.nick}</strong></td>
-                        <td>${order.amount} Robux</td>
-                        <td style="font-family: monospace; color: #66ccff;">${order.code}</td>
-                        <td style="opacity: 0.7;">${order.time}</td>
-                        <td><span class="status ${statusClass}">${statusText}</span></td>
-                        <td>
-                            ${order.status === 'waiting' ? 
-                                `<button class="action-btn pay-btn" onclick="payOrder(${order.id})">✓ Оплатить</button>
-                                 <button class="action-btn cancel-btn" onclick="cancelOrder(${order.id})">✗ Отменить</button>` : 
-                                `<button class="action-btn cancel-btn" onclick="deleteOrder(${order.id})">🗑 Удалить</button>`
-                            }
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-        }
-        
         // Проверка сессии
         window.onload = function() {
             if(sessionStorage.getItem('adminLoggedIn') === 'true') {
                 document.getElementById('loginForm').style.display = 'none';
                 document.getElementById('adminContent').style.display = 'block';
-                loadOrders();
+                if(typeof loadOrders === 'function') loadOrders();
             }
         }
         
