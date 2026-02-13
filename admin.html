@@ -7,6 +7,50 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0a1a2f, #1a3b5c);
+            min-height: 100vh;
+            color: white;
+        }
+
+        .gradient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .sphere {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0,153,255,0.3), rgba(0,102,204,0.1));
+            border-radius: 50%;
+            filter: blur(60px);
+            animation: float 20s infinite;
+        }
+
+        .sphere:nth-child(1) { top: -200px; left: -200px; }
+        .sphere:nth-child(2) { bottom: -200px; right: -200px; width: 800px; height: 800px; }
+        .sphere:nth-child(3) { top: 50%; left: 50%; transform: translate(-50%, -50%); width: 1000px; height: 1000px; animation: pulse 15s infinite; }
+
+        @keyframes float {
+            0%,100%{transform:translate(0,0) scale(1);}
+            33%{transform:translate(30px,-30px) scale(1.1);}
+            66%{transform:translate(-20px,20px) scale(0.9);}
+        }
+
+        @keyframes pulse {
+            0%,100%{opacity:0.5;transform:translate(-50%,-50%) scale(1);}
+            50%{opacity:0.8;transform:translate(-50%,-50%) scale(1.2);}
+        }
+
         .admin-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -74,20 +118,21 @@
             border-radius: 20px;
             font-size: 12px;
             font-weight: 500;
+            display: inline-block;
         }
         
         .status-waiting {
-            background: rgba(255, 165, 0, 0.2);
+            background: rgba(255,165,0,0.2);
             color: orange;
         }
         
         .status-paid {
-            background: rgba(0, 255, 0, 0.2);
+            background: rgba(0,255,0,0.2);
             color: #00ff00;
         }
         
         .status-cancelled {
-            background: rgba(255, 0, 0, 0.2);
+            background: rgba(255,0,0,0.2);
             color: #ff4444;
         }
         
@@ -117,7 +162,6 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
         
-        /* Стили для входа */
         .login-container {
             max-width: 400px;
             margin: 100px auto;
@@ -178,20 +222,46 @@
         .admin-content {
             display: none;
         }
-        
-        @media (max-width: 768px) {
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .orders-table {
-                padding: 15px;
-            }
-            
-            th, td {
-                padding: 10px;
-                font-size: 14px;
-            }
+
+        .header {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50px;
+            padding: 15px 25px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+            color: #66ccff;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, #0066cc, #66ccff);
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: white;
+        }
+
+        .admin-btn {
+            background: #66ccff;
+            color: #001f3f;
+            padding: 8px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
         }
     </style>
 </head>
@@ -210,18 +280,18 @@
         <div class="error-message" id="loginError">Неверный пароль!</div>
     </div>
 
-    <!-- Админ панель (скрыта) -->
+    <!-- Админ панель -->
     <div class="admin-content" id="adminContent">
         <div class="admin-container">
-            <div class="header" style="background: rgba(255,255,255,0.1); padding: 20px 30px; border-radius: 50px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-                <div class="logo" style="display: flex; align-items: center; gap: 10px;">
-                    <span class="logo-text" style="font-size: 24px; font-weight: 700; color: #66ccff;">FelixBux Admin</span>
-                    <span class="badge" style="background: linear-gradient(135deg, #0066cc, #66ccff); padding: 4px 8px; border-radius: 20px; font-size: 12px; color: white;">PRO</span>
+            <div class="header">
+                <div class="logo">
+                    <span class="logo-text">FelixBux Admin</span>
+                    <span class="badge">PRO</span>
                 </div>
-                <a href="index.html" class="admin-btn" style="background: #66ccff; color: #001f3f; padding: 10px 25px; border-radius: 30px; text-decoration: none; font-weight: bold;">← На главную</a>
+                <a href="index.html" class="admin-btn">← На главную</a>
             </div>
 
-            <div class="stats-grid" id="stats">
+            <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-value" id="totalOrders">0</div>
                     <div class="stat-label">Всего заказов</div>
@@ -237,8 +307,8 @@
             </div>
 
             <div class="orders-table">
-                <h2 style="margin-bottom: 20px; color: white;">📋 Все заказы</h2>
-                <table id="ordersTable">
+                <h2 style="margin-bottom: 20px;">📋 Все заказы</h2>
+                <table>
                     <thead>
                         <tr>
                             <th>Ник</th>
@@ -251,7 +321,7 @@
                     </thead>
                     <tbody id="ordersBody">
                         <tr>
-                            <td colspan="6" style="text-align: center; opacity: 0.5; padding: 40px; color: white;">
+                            <td colspan="6" style="text-align: center; opacity: 0.5; padding: 40px;">
                                 Загрузка...
                             </td>
                         </tr>
@@ -262,19 +332,15 @@
     </div>
 
     <script>
-        // ТВОЙ ПАРОЛЬ: Felix2013Livrix
+        // ПАРОЛЬ: Felix2013Livrix
         const ADMIN_PASSWORD = 'Felix2013Livrix';
         
-        // Проверка пароля
         function checkPassword() {
-            const password = document.getElementById('adminPassword').value;
+            let password = document.getElementById('adminPassword').value;
             
             if(password === ADMIN_PASSWORD) {
-                // Прячем форму входа
                 document.getElementById('loginForm').style.display = 'none';
-                // Показываем админку
                 document.getElementById('adminContent').style.display = 'block';
-                // Загружаем заказы
                 loadOrders();
             } else {
                 document.getElementById('loginError').style.display = 'block';
@@ -282,11 +348,8 @@
             }
         }
         
-        // Нажатие Enter в поле пароля
         document.getElementById('adminPassword').addEventListener('keypress', function(e) {
-            if(e.key === 'Enter') {
-                checkPassword();
-            }
+            if(e.key === 'Enter') checkPassword();
         });
         
         let orders = [];
@@ -308,23 +371,16 @@
             orders = orders.map(order => {
                 if(order.id === id) {
                     order.status = 'paid';
-                    
-                    // Добавляем в недавние покупки
                     recentPurchases.push({
                         nick: order.nick,
                         amount: order.amount,
                         time: new Date().toLocaleTimeString()
                     });
-                    
-                    if(recentPurchases.length > 10) {
-                        recentPurchases = recentPurchases.slice(-10);
-                    }
-                    
+                    if(recentPurchases.length > 10) recentPurchases = recentPurchases.slice(-10);
                     localStorage.setItem('recentPurchases', JSON.stringify(recentPurchases));
                 }
                 return order;
             });
-            
             localStorage.setItem('orders', JSON.stringify(orders));
             loadOrders();
         }
@@ -332,12 +388,9 @@
         function cancelOrder(id) {
             if(confirm('Отменить заказ?')) {
                 orders = orders.map(order => {
-                    if(order.id === id) {
-                        order.status = 'cancelled';
-                    }
+                    if(order.id === id) order.status = 'cancelled';
                     return order;
                 });
-                
                 localStorage.setItem('orders', JSON.stringify(orders));
                 loadOrders();
             }
@@ -345,18 +398,15 @@
         
         function deleteOrder(id) {
             if(confirm('Удалить заказ навсегда?')) {
-                // Удаляем из заказов
                 orders = orders.filter(order => order.id !== id);
                 localStorage.setItem('orders', JSON.stringify(orders));
                 
-                // Обновляем недавние покупки (только оплаченные)
-                const paidOrders = orders.filter(o => o.status === 'paid');
+                let paidOrders = orders.filter(o => o.status === 'paid');
                 recentPurchases = paidOrders.slice(-10).map(o => ({
                     nick: o.nick,
                     amount: o.amount,
                     time: o.time
                 }));
-                
                 localStorage.setItem('recentPurchases', JSON.stringify(recentPurchases));
                 
                 loadOrders();
@@ -364,16 +414,10 @@
         }
         
         function renderOrders() {
-            const tbody = document.getElementById('ordersBody');
+            let tbody = document.getElementById('ordersBody');
             
             if(orders.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="6" style="text-align: center; opacity: 0.5; padding: 40px; color: white;">
-                            Нет заказов
-                        </td>
-                    </tr>
-                `;
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; opacity: 0.5; padding: 40px;">Нет заказов</td></tr>';
                 return;
             }
             
@@ -392,9 +436,9 @@
                 return `
                     <tr>
                         <td><strong style="color: #66ccff;">${order.nick}</strong></td>
-                        <td style="color: white;">${order.amount} Robux</td>
-                        <td style="font-family: monospace; font-size: 16px; color: #66ccff;">${order.code}</td>
-                        <td style="opacity: 0.7; font-size: 14px; color: white;">${order.time}</td>
+                        <td>${order.amount} Robux</td>
+                        <td style="font-family: monospace; color: #66ccff;">${order.code}</td>
+                        <td style="opacity: 0.7;">${order.time}</td>
                         <td><span class="status ${statusClass}">${statusText}</span></td>
                         <td>
                             ${order.status === 'waiting' ? 
@@ -407,8 +451,6 @@
                 `;
             }).join('');
         }
-        
-        // Загружаем если уже вошли (но для простоты всегда показываем вход)
     </script>
 </body>
 </html>
