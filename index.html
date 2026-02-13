@@ -2,60 +2,168 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FelixBux - Купить робуксы</title>
-    <link rel="stylesheet" href="style.css">
+    <title>FelixBux</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial;
+            background: #001f3f;
+            color: white;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .header {
+            background: #0066cc;
+            padding: 15px;
+            border-radius: 30px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+        }
+        .card {
+            background: #0066cc;
+            padding: 30px;
+            border-radius: 30px;
+        }
+        h1 {
+            text-align: center;
+            color: #66ccff;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 20px;
+            border: none;
+        }
+        button {
+            background: #66ccff;
+            color: #001f3f;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .preset {
+            padding: 8px 15px;
+            margin: 5px;
+            background: white;
+            border: none;
+            border-radius: 20px;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            color: #001f3f;
+            border-radius: 20px;
+            display: none;
+        }
+        .code {
+            font-size: 32px;
+            font-weight: bold;
+            text-align: center;
+            letter-spacing: 5px;
+            margin: 20px 0;
+        }
+    </style>
 </head>
 <body>
-    <div class="bg"></div>
-    
     <div class="container">
         <div class="header">
-            <div class="logo">FelixBux</div>
-            <div class="nav">
-                <a href="index.html" class="active">Главная</a>
-                <a href="how.html">Как работает</a>
-                <a href="reviews.html">Отзывы</a>
-            </div>
+            <a href="#">Главная</a>
+            <a href="#">Как работает</a>
+            <a href="#">Отзывы</a>
         </div>
-
+        
         <div class="card">
             <h1>Купить робуксы</h1>
-            <p class="subtitle">Мгновенная генерация кода</p>
-
-            <form id="orderForm">
-                <div class="form-group">
-                    <label>Твой ник в Roblox</label>
-                    <input type="text" id="username" placeholder="Введи никнейм" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Количество робуксов</label>
-                    <input type="number" id="amount" placeholder="100" min="10" max="10000" required>
-                    <div class="presets">
-                        <button type="button" class="preset" data-amount="100">100</button>
-                        <button type="button" class="preset" data-amount="500">500</button>
-                        <button type="button" class="preset" data-amount="1000">1k</button>
-                    </div>
-                </div>
-
-                <button type="submit" class="btn" id="submitBtn">Сгенерировать код</button>
-            </form>
-
-            <div class="result hidden" id="result">
+            
+            <input type="text" id="username" placeholder="Твой ник в Roblox">
+            <input type="number" id="amount" placeholder="Количество робуксов">
+            
+            <div>
+                <button class="preset" onclick="setAmount(100)">100</button>
+                <button class="preset" onclick="setAmount(500)">500</button>
+                <button class="preset" onclick="setAmount(1000)">1000</button>
+            </div>
+            
+            <button onclick="generate()" style="width: 100%; margin-top: 20px;">Сгенерировать код</button>
+            
+            <div class="result" id="result">
                 <h3>Твой код:</h3>
-                <div class="code-box" id="code">N2f98d</div>
-                <button class="copy-btn" onclick="copyCode()">Копировать</button>
+                <div class="code" id="code"></div>
+                <button onclick="copyCode()" style="width: 100%;">Копировать</button>
                 
-                <div class="telegram-info">
-                    <p>Напиши в Telegram:</p>
-                    <div class="message">Привет! Мой код: <span id="codeMsg">N2f98d</span></div>
-                    <a href="https://t.me/FelixBuxBot" class="telegram-btn">Перейти в Telegram</a>
+                <p style="margin-top: 20px;">Напиши в Telegram:</p>
+                <div style="background: #f0f0f0; padding: 10px; border-radius: 10px;">
+                    Привет! Мой код: <span id="codeMsg"></span>
                 </div>
+                <button onclick="window.open('https://t.me/FelixBuxBot')" style="width: 100%; margin-top: 10px; background: #0088cc; color: white;">
+                    Перейти в Telegram
+                </button>
             </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        const WEBHOOK = 'https://discord.com/api/webhooks/1471128466593288417/LGKIJtZe_dVEFMDeG6VPNWp-JxuCtYFJRKMmxaeqILqc2lz1qde8BwWWlGvPjZ4ciDh9';
+        
+        function setAmount(val) {
+            document.getElementById('amount').value = val;
+        }
+        
+        function generateCode() {
+            let code = '';
+            let letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            let numbers = '0123456789';
+            code += letters[Math.floor(Math.random() * 26)];
+            for(let i = 0; i < 5; i++) {
+                if(i % 2 === 0) code += numbers[Math.floor(Math.random() * 10)];
+                else code += letters[Math.floor(Math.random() * 26)];
+            }
+            return code;
+        }
+        
+        async function generate() {
+            let username = document.getElementById('username').value;
+            let amount = document.getElementById('amount').value;
+            
+            if(!username || !amount) {
+                alert('Заполни все поля!');
+                return;
+            }
+            
+            let code = generateCode();
+            
+            try {
+                await fetch(WEBHOOK, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        content: `Новый заказ!\nНик: ${username}\nРобуксы: ${amount}\nКод: ${code}`
+                    })
+                });
+            } catch(e) {}
+            
+            document.getElementById('code').innerText = code;
+            document.getElementById('codeMsg').innerText = code;
+            document.getElementById('result').style.display = 'block';
+        }
+        
+        function copyCode() {
+            let code = document.getElementById('code').innerText;
+            navigator.clipboard.writeText(code);
+            alert('Код скопирован!');
+        }
+    </script>
 </body>
 </html>
