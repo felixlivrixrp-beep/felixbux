@@ -5,9 +5,7 @@ const WEBHOOK_URL = 'https://discord.com/api/webhooks/1471128466593288417/LGKIJt
 function generateCode() {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let code = '';
-    // Первый символ - буква
     code += chars[Math.floor(Math.random() * 26)];
-    // Остальные 5 символов - буквы и цифры
     for (let i = 0; i < 5; i++) {
         code += chars[Math.floor(Math.random() * chars.length)];
     }
@@ -34,7 +32,6 @@ async function sendToWebhook(data) {
         console.log('Данные успешно отправлены в Discord');
     } catch (error) {
         console.error('Ошибка при отправке в Discord:', error);
-        // Показываем уведомление об ошибке
         showNotification('Ошибка отправки данных, но код сгенерирован!', 'error');
     }
 }
@@ -64,6 +61,25 @@ window.copyCode = function() {
     });
 };
 
+// Навигация между страницами
+function showPage(pageId) {
+    // Скрываем все страницы
+    document.getElementById('home-page').classList.add('hidden');
+    document.getElementById('how-it-works-page').classList.add('hidden');
+    document.getElementById('reviews-page').classList.add('hidden');
+    
+    // Показываем нужную страницу
+    document.getElementById(pageId).classList.remove('hidden');
+    
+    // Обновляем активный класс в навигации
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+        if (link.dataset.page === pageId.replace('-page', '')) {
+            link.classList.add('active');
+        }
+    });
+}
+
 // Основной код при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('purchaseForm');
@@ -74,13 +90,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const usernameInput = document.getElementById('username');
     const robuxAmount = document.getElementById('robuxAmount');
     
+    // Навигация
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const page = this.dataset.page;
+            showPage(page + '-page');
+        });
+    });
+    
     // Пресеты для количества робуксов
     document.querySelectorAll('.preset-btn').forEach(btn => {
         btn.addEventListener('click', function() {
             const amount = this.dataset.amount;
             robuxAmount.value = amount;
             
-            // Анимация нажатия
             this.style.transform = 'scale(0.95)';
             setTimeout(() => {
                 this.style.transform = '';
@@ -88,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Валидация ввода ника (только латиница и цифры)
+    // Валидация ввода ника
     usernameInput.addEventListener('input', function(e) {
         this.value = this.value.replace(/[^a-zA-Z0-9_]/g, '');
     });
@@ -110,14 +134,11 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // Показываем загрузку
         submitBtn.classList.add('loading');
         submitBtn.disabled = true;
         
-        // Генерируем код
         const code = generateCode();
         
-        // Данные для отправки
         const orderData = {
             username: username,
             amount: amount,
@@ -125,34 +146,29 @@ document.addEventListener('DOMContentLoaded', function() {
             timestamp: new Date().toISOString()
         };
         
-        // Отправляем в Discord
         await sendToWebhook(orderData);
         
-        // Обновляем отображение кода
         codeDisplay.textContent = code;
         messageCode.textContent = code;
         
-        // Показываем результат
         resultCard.classList.remove('hidden');
         resultCard.style.display = 'block';
         
-        // Скрываем загрузку
         submitBtn.classList.remove('loading');
         submitBtn.disabled = false;
         
-        // Плавный скролл к результату
         resultCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
         
-        // Сохраняем в localStorage (опционально)
+        // Сохраняем в localStorage
         const orders = JSON.parse(localStorage.getItem('felixbux_orders') || '[]');
         orders.push(orderData);
-        localStorage.setItem('felixbux_orders', JSON.stringify(orders.slice(-10))); // Храним последние 10
+        localStorage.setItem('felixbux_orders', JSON.stringify(orders.slice(-10)));
     });
     
-    // Скрываем результат при загрузке страницы
+    // Скрываем результат при загрузке
     resultCard.style.display = 'none';
     
-    // Добавляем эффекты при наведении
+    // Эффекты при наведении
     const codeBox = document.querySelector('.code-box');
     if (codeBox) {
         codeBox.addEventListener('mouseenter', function() {
@@ -164,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Автоматическое форматирование ввода количества
+    // Валидация количества
     robuxAmount.addEventListener('input', function() {
         let value = parseInt(this.value);
         if (value < 10) this.value = 10;
@@ -172,7 +188,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Добавляем эффект параллакса для фона
+// Параллакс для фона
 document.addEventListener('mousemove', function(e) {
     const spheres = document.querySelectorAll('.gradient-sphere');
     const mouseX = e.clientX / window.innerWidth;
