@@ -5,135 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FelixBux - Купить робуксы</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* Маленькие иконки прямо в коде */
-        .icon { display: inline-block; width: 16px; height: 16px; background-size: contain; background-repeat: no-repeat; background-position: center; margin-right: 5px; }
-        .icon-user { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>'); }
-        .icon-robux { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1.5 15h-3v-2h3v2zm0-4h-3V7h3v6z"/></svg>'); }
-        .icon-code { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>'); }
-        .icon-copy { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>'); }
-        .icon-telegram { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.02-1.96 1.25-5.54 3.69-.52.36-1 .53-1.42.52-.47-.01-1.37-.26-2.03-.48-.82-.27-1.47-.42-1.42-.88.03-.24.35-.48.96-.73 3.75-1.63 6.26-2.71 7.52-3.22 3.58-1.47 4.32-1.73 4.81-1.73.11 0 .35.02.51.15.13.1.17.24.18.35-.02.1-.05.31-.08.49z"/></svg>'); }
-        .icon-success { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>'); }
-    </style>
 </head>
 <body>
-    <!-- Анимированный фон -->
-    <div class="gradient-bg">
-        <div class="gradient-sphere"></div>
-        <div class="gradient-sphere"></div>
-        <div class="gradient-sphere"></div>
-    </div>
-
+    <div class="bg"></div>
+    
     <div class="container">
-        <!-- Шапка (ОДИНАКОВАЯ ДЛЯ ВСЕХ) -->
-        <header class="header">
-            <div class="logo">
-                <span class="logo-text">FelixBux</span>
-                <span class="logo-badge">PRO</span>
+        <div class="header">
+            <div class="logo">FelixBux</div>
+            <div class="nav">
+                <a href="index.html" class="active">Главная</a>
+                <a href="how.html">Как работает</a>
+                <a href="reviews.html">Отзывы</a>
             </div>
-            <nav class="nav">
-                <a href="index.html" class="nav-link active">Главная</a>
-                <a href="Rabota.html" class="nav-link">Как это работает</a>
-                <a href="Star.html" class="nav-link">Отзывы</a>
-            </nav>
-        </header>
+        </div>
 
-        <!-- ГЛАВНАЯ СТРАНИЦА -->
-        <main class="main">
-            <div class="glass-card">
-                <h1 class="title">
-                    <span class="title-gradient">Купить робуксы</span>
-                </h1>
-                <p class="subtitle">Мгновенная генерация кода</p>
+        <div class="card">
+            <h1>Купить робуксы</h1>
+            <p class="subtitle">Мгновенная генерация кода</p>
 
-                <!-- Форма -->
-                <form id="purchaseForm" class="form">
-                    <div class="input-group">
-                        <label for="username" class="input-label">
-                            <span class="icon icon-user"></span>
-                            Твой ник в Roblox
-                        </label>
-                        <input type="text" id="username" class="input-field" placeholder="Введи никнейм" required>
-                    </div>
+            <form id="orderForm">
+                <div class="form-group">
+                    <label>Твой ник в Roblox</label>
+                    <input type="text" id="username" placeholder="Введи никнейм" required>
+                </div>
 
-                    <div class="input-group">
-                        <label for="robuxAmount" class="input-label">
-                            <span class="icon icon-robux"></span>
-                            Количество робуксов
-                        </label>
-                        <div class="amount-selector">
-                            <input type="number" id="robuxAmount" class="input-field" placeholder="100" min="10" max="10000" required>
-                            <div class="amount-presets">
-                                <button type="button" class="preset-btn" data-amount="100">100</button>
-                                <button type="button" class="preset-btn" data-amount="500">500</button>
-                                <button type="button" class="preset-btn" data-amount="1000">1k</button>
-                                <button type="button" class="preset-btn" data-amount="2500">2.5k</button>
-                                <button type="button" class="preset-btn" data-amount="5000">5k</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="submit-btn" id="submitBtn">
-                        <span class="icon icon-code"></span>
-                        <span class="btn-text">Сгенерировать код</span>
-                        <span class="btn-loader"></span>
-                    </button>
-                </form>
-
-                <!-- Результат -->
-                <div class="result-card hidden" id="resultCard">
-                    <div class="result-header">
-                        <span class="icon icon-success result-icon"></span>
-                        <h3 class="result-title">Код сгенерирован!</h3>
-                    </div>
-                    
-                    <div class="code-container">
-                        <div class="code-box" id="codeDisplay">N2f98d</div>
-                        <button class="copy-btn" id="copyBtn" onclick="copyCode()">
-                            <span class="icon icon-copy"></span>
-                            Копировать
-                        </button>
-                    </div>
-
-                    <div class="instruction-box">
-                        <h4 class="instruction-title">
-                            <span class="icon icon-telegram"></span>
-                            Инструкция:
-                        </h4>
-                        <ol class="instruction-list">
-                            <li>Открой Telegram</li>
-                            <li>Напиши боту: <span class="instruction-highlight">@FelixBuxBot</span></li>
-                            <li>Отправь сообщение:</li>
-                        </ol>
-                        <div class="message-preview">
-                            Привет! Я за остальной инструкцией. Мой код: <span class="code-highlight" id="messageCode">N2f98d</span>
-                        </div>
-                        <a href="https://t.me/FelixBuxBot" target="_blank" class="telegram-btn">
-                            <span class="icon icon-telegram"></span>
-                            Перейти в Telegram
-                        </a>
+                <div class="form-group">
+                    <label>Количество робуксов</label>
+                    <input type="number" id="amount" placeholder="100" min="10" max="10000" required>
+                    <div class="presets">
+                        <button type="button" class="preset" data-amount="100">100</button>
+                        <button type="button" class="preset" data-amount="500">500</button>
+                        <button type="button" class="preset" data-amount="1000">1k</button>
                     </div>
                 </div>
-            </div>
-        </main>
 
-        <!-- Особенности -->
-        <div class="features">
-            <div class="feature-item">
-                <span class="icon icon-success feature-icon"></span>
-                <h3 class="feature-title">Мгновенно</h3>
-                <p class="feature-text">Генерация за секунду</p>
-            </div>
-            <div class="feature-item">
-                <span class="icon icon-user feature-icon"></span>
-                <h3 class="feature-title">Безопасно</h3>
-                <p class="feature-text">Данные защищены</p>
-            </div>
-            <div class="feature-item">
-                <span class="icon icon-robux feature-icon"></span>
-                <h3 class="feature-title">Надежно</h3>
-                <p class="feature-text">100% рабочих кодов</p>
+                <button type="submit" class="btn" id="submitBtn">Сгенерировать код</button>
+            </form>
+
+            <div class="result hidden" id="result">
+                <h3>Твой код:</h3>
+                <div class="code-box" id="code">N2f98d</div>
+                <button class="copy-btn" onclick="copyCode()">Копировать</button>
+                
+                <div class="telegram-info">
+                    <p>Напиши в Telegram:</p>
+                    <div class="message">Привет! Мой код: <span id="codeMsg">N2f98d</span></div>
+                    <a href="https://t.me/FelixBuxBot" class="telegram-btn">Перейти в Telegram</a>
+                </div>
             </div>
         </div>
     </div>
