@@ -11,8 +11,6 @@
     --gradient-start: #0066cc;
     --gradient-end: #66ccff;
     --white: #ffffff;
-    --glass-bg: rgba(255, 255, 255, 0.1);
-    --glass-border: rgba(255, 255, 255, 0.2);
 }
 
 body {
@@ -23,7 +21,6 @@ body {
     overflow-x: hidden;
 }
 
-/* Анимированный фон */
 .gradient-bg {
     position: fixed;
     top: 0;
@@ -38,62 +35,40 @@ body {
     position: absolute;
     width: 600px;
     height: 600px;
-    background: radial-gradient(circle, rgba(0, 153, 255, 0.3), rgba(0, 102, 204, 0.1));
+    background: radial-gradient(circle, rgba(0,153,255,0.3), rgba(0,102,204,0.1));
     border-radius: 50%;
     filter: blur(60px);
     animation: float 20s infinite;
 }
 
-.sphere:nth-child(1) {
-    top: -200px;
-    left: -200px;
-    background: radial-gradient(circle, rgba(0, 153, 255, 0.4), rgba(0, 102, 204, 0.2));
-}
-
-.sphere:nth-child(2) {
-    bottom: -200px;
-    right: -200px;
-    width: 800px;
-    height: 800px;
-    animation-delay: -5s;
-}
-
-.sphere:nth-child(3) {
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 1000px;
-    height: 1000px;
-    animation: pulse 15s infinite;
-}
+.sphere:nth-child(1) { top: -200px; left: -200px; }
+.sphere:nth-child(2) { bottom: -200px; right: -200px; width: 800px; height: 800px; animation-delay: -5s; }
+.sphere:nth-child(3) { top: 50%; left: 50%; transform: translate(-50%, -50%); width: 1000px; height: 1000px; animation: pulse 15s infinite; }
 
 @keyframes float {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(30px, -30px) scale(1.1); }
-    66% { transform: translate(-20px, 20px) scale(0.9); }
+    0%,100%{transform:translate(0,0) scale(1);}
+    33%{transform:translate(30px,-30px) scale(1.1);}
+    66%{transform:translate(-20px,20px) scale(0.9);}
 }
 
 @keyframes pulse {
-    0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
-    50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.2); }
+    0%,100%{opacity:0.5;transform:translate(-50%,-50%) scale(1);}
+    50%{opacity:0.8;transform:translate(-50%,-50%) scale(1.2);}
 }
 
 .container {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
-    position: relative;
-    z-index: 1;
 }
 
-/* Шапка */
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: var(--glass-bg);
+    background: rgba(255,255,255,0.1);
     backdrop-filter: blur(10px);
-    border: 1px solid var(--glass-border);
+    border: 1px solid rgba(255,255,255,0.2);
     border-radius: 50px;
     padding: 15px 25px;
     margin-bottom: 30px;
@@ -101,14 +76,8 @@ body {
 }
 
 @keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity:0; transform:translateY(-20px); }
+    to { opacity:1; transform:translateY(0); }
 }
 
 .logo {
@@ -145,14 +114,13 @@ body {
 
 .admin-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(0, 102, 204, 0.3);
+    box-shadow: 0 10px 20px rgba(0,102,204,0.3);
 }
 
-/* Карточки */
 .card {
-    background: var(--glass-bg);
+    background: rgba(255,255,255,0.1);
     backdrop-filter: blur(10px);
-    border: 1px solid var(--glass-border);
+    border: 1px solid rgba(255,255,255,0.2);
     border-radius: 40px;
     padding: 40px;
     margin-bottom: 30px;
@@ -160,23 +128,17 @@ body {
 }
 
 .recent-card {
-    background: var(--glass-bg);
+    background: rgba(255,255,255,0.1);
     backdrop-filter: blur(10px);
-    border: 1px solid var(--glass-border);
+    border: 1px solid rgba(255,255,255,0.2);
     border-radius: 30px;
     padding: 30px;
     animation: fadeIn 0.8s ease;
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity:0; transform:translateY(20px); }
+    to { opacity:1; transform:translateY(0); }
 }
 
 .title {
@@ -195,8 +157,8 @@ body {
 }
 
 @keyframes gradient {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
+    0%,100%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
 }
 
 .subtitle {
@@ -205,7 +167,6 @@ body {
     margin-bottom: 30px;
 }
 
-/* Форма */
 .form {
     max-width: 500px;
     margin: 0 auto;
@@ -232,8 +193,8 @@ body {
 .input {
     width: 100%;
     padding: 15px 20px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 2px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,255,255,0.1);
     border-radius: 30px;
     color: var(--white);
     font-size: 16px;
@@ -243,14 +204,9 @@ body {
 .input:focus {
     outline: none;
     border-color: var(--light-blue);
-    box-shadow: 0 0 30px rgba(0, 153, 255, 0.3);
+    box-shadow: 0 0 30px rgba(0,153,255,0.3);
 }
 
-.input::placeholder {
-    color: rgba(255, 255, 255, 0.3);
-}
-
-/* Пресеты */
 .presets {
     display: flex;
     gap: 10px;
@@ -262,8 +218,8 @@ body {
     flex: 1;
     min-width: 60px;
     padding: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
     border-radius: 25px;
     color: var(--white);
     font-weight: 500;
@@ -276,7 +232,6 @@ body {
     transform: translateY(-2px);
 }
 
-/* Кнопка отправки */
 .submit-btn {
     width: 100%;
     padding: 18px;
@@ -294,16 +249,11 @@ body {
 
 .submit-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 15px 30px rgba(0, 102, 204, 0.5);
+    box-shadow: 0 15px 30px rgba(0,102,204,0.5);
 }
 
-.submit-btn.loading .btn-text {
-    opacity: 0;
-}
-
-.submit-btn.loading .loader {
-    display: block;
-}
+.submit-btn.loading .btn-text { opacity: 0; }
+.submit-btn.loading .loader { display: block; }
 
 .loader {
     display: none;
@@ -323,28 +273,19 @@ body {
     to { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-/* Результат */
 .result-card {
     margin-top: 30px;
     padding: 30px;
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255,255,255,0.15);
     border-radius: 30px;
     animation: slideUp 0.5s ease;
 }
 
-.result-card.hidden {
-    display: none;
-}
+.result-card.hidden { display: none; }
 
 @keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity:0; transform:translateY(20px); }
+    to { opacity:1; transform:translateY(0); }
 }
 
 .result-header {
@@ -375,7 +316,7 @@ body {
     font-weight: 700;
     text-align: center;
     letter-spacing: 4px;
-    box-shadow: 0 10px 30px rgba(0, 102, 204, 0.5);
+    box-shadow: 0 10px 30px rgba(0,102,204,0.5);
 }
 
 .copy-btn {
@@ -383,8 +324,8 @@ body {
     align-items: center;
     gap: 8px;
     padding: 0 20px;
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.3);
     border-radius: 20px;
     color: var(--white);
     font-size: 16px;
@@ -393,13 +334,12 @@ body {
 }
 
 .copy-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255,255,255,0.3);
     transform: scale(1.05);
 }
 
-/* Telegram блок */
 .telegram-block {
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(0,0,0,0.2);
     border-radius: 20px;
     padding: 20px;
 }
@@ -412,7 +352,7 @@ body {
 }
 
 .message-preview {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255,255,255,0.1);
     padding: 15px;
     border-radius: 15px;
     margin-bottom: 15px;
@@ -441,7 +381,6 @@ body {
     transform: translateY(-2px);
 }
 
-/* Недавние покупки */
 .recent-title {
     display: flex;
     align-items: center;
@@ -461,15 +400,15 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 15px;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255,255,255,0.05);
     border-radius: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255,255,255,0.1);
     transition: all 0.3s;
 }
 
 .purchase-item:hover {
     transform: translateX(5px);
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255,255,255,0.1);
 }
 
 .purchase-info {
@@ -484,14 +423,14 @@ body {
 }
 
 .purchase-amount {
-    background: rgba(102, 204, 255, 0.2);
+    background: rgba(102,204,255,0.2);
     padding: 4px 10px;
     border-radius: 15px;
     font-size: 14px;
 }
 
 .purchase-time {
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(255,255,255,0.5);
     font-size: 12px;
 }
 
@@ -500,10 +439,9 @@ body {
     font-size: 12px;
     padding: 4px 8px;
     border-radius: 12px;
-    background: rgba(0, 255, 0, 0.1);
+    background: rgba(0,255,0,0.1);
 }
 
-/* Уведомление */
 .notification {
     position: fixed;
     bottom: 20px;
@@ -513,23 +451,16 @@ body {
     border-radius: 30px;
     color: var(--white);
     font-weight: 500;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     animation: notification 0.3s ease;
     z-index: 1000;
 }
 
 @keyframes notification {
-    from {
-        opacity: 0;
-        transform: translateY(100px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity:0; transform:translateY(100px); }
+    to { opacity:1; transform:translateY(0); }
 }
 
-/* Адаптивность */
 @media (max-width: 600px) {
     .header {
         flex-direction: column;
@@ -551,9 +482,5 @@ body {
     
     .presets {
         flex-wrap: wrap;
-    }
-    
-    .preset-btn {
-        min-width: 45px;
     }
 }
