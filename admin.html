@@ -7,50 +7,13 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #0a1a2f, #1a3b5c);
-            min-height: 100vh;
-            color: white;
+        /* Айфоновские эмодзи */
+        .ios-emoji {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-size: 1.2em;
+            line-height: 1;
         }
-
-        .gradient-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-        }
-
-        .sphere {
-            position: absolute;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(0,153,255,0.3), rgba(0,102,204,0.1));
-            border-radius: 50%;
-            filter: blur(60px);
-            animation: float 20s infinite;
-        }
-
-        .sphere:nth-child(1) { top: -200px; left: -200px; }
-        .sphere:nth-child(2) { bottom: -200px; right: -200px; width: 800px; height: 800px; }
-        .sphere:nth-child(3) { top: 50%; left: 50%; transform: translate(-50%, -50%); width: 1000px; height: 1000px; animation: pulse 15s infinite; }
-
-        @keyframes float {
-            0%,100%{transform:translate(0,0) scale(1);}
-            33%{transform:translate(30px,-30px) scale(1.1);}
-            66%{transform:translate(-20px,20px) scale(0.9);}
-        }
-
-        @keyframes pulse {
-            0%,100%{opacity:0.5;transform:translate(-50%,-50%) scale(1);}
-            50%{opacity:0.8;transform:translate(-50%,-50%) scale(1.2);}
-        }
-
+        
         .admin-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -263,6 +226,51 @@
             text-decoration: none;
             font-weight: 500;
         }
+
+        /* Стили для сообщения от админа */
+        .admin-message {
+            background: linear-gradient(135deg, #0066cc, #66ccff);
+            border-radius: 30px;
+            padding: 20px 25px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 10px 30px rgba(0,102,204,0.3);
+        }
+        
+        .admin-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 3px solid white;
+        }
+        
+        .admin-text {
+            flex: 1;
+        }
+        
+        .admin-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .admin-badge {
+            background: gold;
+            color: #001f3f;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+        
+        .admin-message-text {
+            opacity: 0.9;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -289,6 +297,22 @@
                     <span class="badge">PRO</span>
                 </div>
                 <a href="index.html" class="admin-btn">← На главную</a>
+            </div>
+
+            <!-- Сообщение от админа -->
+            <div class="admin-message">
+                <img src="https://tr.rbxcdn.com/30DAY-AvatarHeadshot-1F5C01B1F1AB60651132AD3AC60F41EA-Png/150/150/AvatarHeadshot/Webp/noFilter" 
+                     alt="Admin" 
+                     class="admin-avatar"
+                     onerror="this.src='https://i.imgur.com/7k12qDc.png'">
+                <div class="admin-text">
+                    <div class="admin-name">
+                        <span class="ios-emoji">👑</span> FelixBux Admin <span class="admin-badge">OWNER</span>
+                    </div>
+                    <div class="admin-message-text">
+                        Привет! Я создатель FelixBux. Если есть вопросы - пиши в Telegram: @FelixBuxSupport
+                    </div>
+                </div>
             </div>
 
             <div class="stats-grid">
