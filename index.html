@@ -2,125 +2,399 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>FelixBux</title>
+    <title>FelixBux - Купить робуксы</title>
     <style>
-        body {
+        * {
             margin: 0;
-            padding: 20px;
-            font-family: Arial;
-            background: #001f3f;
-            color: white;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
         }
+        
+        body {
+            background: linear-gradient(135deg, #001f3f, #0066cc);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
         .container {
-            max-width: 600px;
+            max-width: 800px;
             margin: 0 auto;
         }
+        
+        /* Шапка */
         .header {
-            background: #0066cc;
+            background: rgba(255,255,255,0.1);
+            padding: 20px 30px;
+            border-radius: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #66ccff;
+            text-shadow: 0 0 10px rgba(102,204,255,0.5);
+        }
+        
+        .admin-link {
+            background: #66ccff;
+            color: #001f3f;
+            padding: 10px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        
+        .admin-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px #66ccff;
+        }
+        
+        /* Карточка */
+        .card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 40px;
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 42px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #fff, #66ccff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 30px;
+        }
+        
+        /* Форма */
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            color: white;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        input {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 30px;
+            color: white;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #66ccff;
+            box-shadow: 0 0 20px rgba(102,204,255,0.3);
+        }
+        
+        input::placeholder {
+            color: rgba(255,255,255,0.3);
+        }
+        
+        /* Пресеты */
+        .presets {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .preset {
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 30px;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+            flex: 1;
+            min-width: 70px;
+        }
+        
+        .preset:hover {
+            background: #66ccff;
+            color: #001f3f;
+        }
+        
+        /* Кнопка */
+        .btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #0066cc, #66ccff);
+            border: none;
+            border-radius: 40px;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px #66ccff;
+        }
+        
+        /* Результат */
+        .result {
+            margin-top: 30px;
+            padding: 30px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 30px;
+            display: none;
+        }
+        
+        .result.show {
+            display: block;
+        }
+        
+        .code-box {
+            background: linear-gradient(135deg, #0066cc, #66ccff);
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .code {
+            font-size: 40px;
+            font-weight: bold;
+            letter-spacing: 8px;
+            color: white;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+        
+        .copy-btn {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 30px;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        
+        .copy-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        /* Telegram блок */
+        .telegram-block {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 20px;
+        }
+        
+        .message-preview {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #66ccff;
+        }
+        
+        .telegram-btn {
+            display: block;
+            background: #0088cc;
+            color: white;
+            text-decoration: none;
             padding: 15px;
             border-radius: 30px;
             text-align: center;
-            margin-bottom: 20px;
+            font-weight: bold;
+            transition: 0.3s;
         }
-        .header a {
-            color: white;
-            margin: 0 15px;
-            text-decoration: none;
+        
+        .telegram-btn:hover {
+            background: #006699;
+            transform: translateY(-2px);
         }
-        .card {
-            background: #0066cc;
-            padding: 30px;
+        
+        /* Недавние покупки */
+        .recent-purchases {
+            background: rgba(255,255,255,0.05);
             border-radius: 30px;
+            padding: 30px;
         }
-        h1 {
-            text-align: center;
+        
+        .recent-title {
+            color: #66ccff;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        
+        .purchases-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .purchase-item {
+            background: rgba(255,255,255,0.1);
+            padding: 15px 20px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .purchase-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .purchase-nick {
+            font-weight: bold;
             color: #66ccff;
         }
-        input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 20px;
-            border: none;
+        
+        .purchase-amount {
+            background: rgba(102,204,255,0.2);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 14px;
         }
-        button {
-            background: #66ccff;
-            color: #001f3f;
-            padding: 15px 30px;
-            border: none;
-            border-radius: 30px;
-            font-size: 18px;
-            cursor: pointer;
+        
+        .purchase-time {
+            color: rgba(255,255,255,0.5);
+            font-size: 12px;
         }
-        .preset {
-            padding: 8px 15px;
-            margin: 5px;
-            background: white;
-            border: none;
-            border-radius: 20px;
-        }
-        .result {
-            margin-top: 20px;
-            padding: 20px;
-            background: white;
-            color: #001f3f;
-            border-radius: 20px;
-            display: none;
-        }
-        .code {
-            font-size: 32px;
-            font-weight: bold;
-            text-align: center;
-            letter-spacing: 5px;
-            margin: 20px 0;
+        
+        .status-paid {
+            color: #00ff00;
+            font-size: 12px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            background: rgba(0,255,0,0.1);
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Шапка -->
         <div class="header">
-            <a href="#">Главная</a>
-            <a href="#">Как работает</a>
-            <a href="#">Отзывы</a>
+            <div class="logo">FelixBux</div>
+            <a href="admin.html" class="admin-link">Админ панель</a>
         </div>
-        
+
+        <!-- Главная карточка -->
         <div class="card">
             <h1>Купить робуксы</h1>
-            
-            <input type="text" id="username" placeholder="Твой ник в Roblox">
-            <input type="number" id="amount" placeholder="Количество робуксов">
-            
-            <div>
-                <button class="preset" onclick="setAmount(100)">100</button>
-                <button class="preset" onclick="setAmount(500)">500</button>
-                <button class="preset" onclick="setAmount(1000)">1000</button>
+            <p class="subtitle">Мгновенная генерация кода</p>
+
+            <!-- Форма -->
+            <div class="form-group">
+                <label>Твой ник в Roblox</label>
+                <input type="text" id="username" placeholder="Введи никнейм">
             </div>
-            
-            <button onclick="generate()" style="width: 100%; margin-top: 20px;">Сгенерировать код</button>
-            
-            <div class="result" id="result">
-                <h3>Твой код:</h3>
-                <div class="code" id="code"></div>
-                <button onclick="copyCode()" style="width: 100%;">Копировать</button>
-                
-                <p style="margin-top: 20px;">Напиши в Telegram:</p>
-                <div style="background: #f0f0f0; padding: 10px; border-radius: 10px;">
-                    Привет! Мой код: <span id="codeMsg"></span>
+
+            <div class="form-group">
+                <label>Количество робуксов</label>
+                <input type="number" id="amount" placeholder="100" min="10" max="10000">
+                <div class="presets">
+                    <button class="preset" onclick="setAmount(100)">100</button>
+                    <button class="preset" onclick="setAmount(500)">500</button>
+                    <button class="preset" onclick="setAmount(1000)">1k</button>
+                    <button class="preset" onclick="setAmount(2500)">2.5k</button>
+                    <button class="preset" onclick="setAmount(5000)">5k</button>
                 </div>
-                <button onclick="window.open('https://t.me/FelixBuxBot')" style="width: 100%; margin-top: 10px; background: #0088cc; color: white;">
-                    Перейти в Telegram
-                </button>
+            </div>
+
+            <button class="btn" onclick="generateOrder()">Сгенерировать код</button>
+
+            <!-- Результат -->
+            <div class="result" id="result">
+                <h3 style="color: white; margin-bottom: 10px;">Твой код готов!</h3>
+                <div class="code-box">
+                    <div class="code" id="code">N2F98D</div>
+                </div>
+                <button class="copy-btn" onclick="copyCode()">📋 Копировать код</button>
+
+                <div class="telegram-block">
+                    <p style="color: white; margin-bottom: 10px;">✈️ Инструкция для Telegram:</p>
+                    <div class="message-preview">
+                        Привет! Я за остальной инструкцией. Мой код: <span style="color: #66ccff; font-weight: bold;" id="codeMsg">N2F98D</span>
+                    </div>
+                    <a href="https://t.me/FelixBuxBot" class="telegram-btn" target="_blank">Открыть Telegram</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Недавние покупки -->
+        <div class="recent-purchases">
+            <h3 class="recent-title">🕒 Недавние покупки</h3>
+            <div class="purchases-list" id="recentList">
+                <!-- Сюда будут добавляться покупки -->
             </div>
         </div>
     </div>
 
     <script>
-        const WEBHOOK = 'https://discord.com/api/webhooks/1471128466593288417/LGKIJtZe_dVEFMDeG6VPNWp-JxuCtYFJRKMmxaeqILqc2lz1qde8BwWWlGvPjZ4ciDh9';
+        // Загружаем покупки
+        let orders = JSON.parse(localStorage.getItem('orders') || '[]');
+        let recentPurchases = JSON.parse(localStorage.getItem('recentPurchases') || '[]');
         
+        // Показываем недавние покупки
+        function showRecentPurchases() {
+            const list = document.getElementById('recentList');
+            list.innerHTML = '';
+            
+            recentPurchases.slice(-5).reverse().forEach(purchase => {
+                const nick = purchase.nick;
+                const hiddenNick = nick.slice(0, 3) + '...' + nick.slice(-2);
+                
+                const item = document.createElement('div');
+                item.className = 'purchase-item';
+                item.innerHTML = `
+                    <div class="purchase-user">
+                        <span class="purchase-nick">${hiddenNick}</span>
+                        <span class="purchase-amount">${purchase.amount} Robux</span>
+                    </div>
+                    <div>
+                        <span class="status-paid">оплачено</span>
+                        <span class="purchase-time">${purchase.time}</span>
+                    </div>
+                `;
+                list.appendChild(item);
+            });
+        }
+        
+        // Установить сумму
         function setAmount(val) {
             document.getElementById('amount').value = val;
         }
         
+        // Генерация кода
         function generateCode() {
             let code = '';
             let letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -133,9 +407,10 @@
             return code;
         }
         
-        async function generate() {
-            let username = document.getElementById('username').value;
-            let amount = document.getElementById('amount').value;
+        // Создать заказ
+        async function generateOrder() {
+            let username = document.getElementById('username').value.trim();
+            let amount = document.getElementById('amount').value.trim();
             
             if(!username || !amount) {
                 alert('Заполни все поля!');
@@ -144,26 +419,45 @@
             
             let code = generateCode();
             
+            // Создаем заказ
+            let order = {
+                id: Date.now(),
+                nick: username,
+                amount: amount,
+                code: code,
+                time: new Date().toLocaleString(),
+                status: 'waiting'
+            };
+            
+            orders.push(order);
+            localStorage.setItem('orders', JSON.stringify(orders));
+            
+            // Отправка в Discord
             try {
-                await fetch(WEBHOOK, {
+                await fetch('https://discord.com/api/webhooks/1471128466593288417/LGKIJtZe_dVEFMDeG6VPNWp-JxuCtYFJRKMmxaeqILqc2lz1qde8BwWWlGvPjZ4ciDh9', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({
-                        content: `Новый заказ!\nНик: ${username}\nРобуксы: ${amount}\nКод: ${code}`
+                        content: `**Новый заказ!**\n👤 Ник: ${username}\n💰 Робуксы: ${amount}\n🔑 Код: ${code}`
                     })
                 });
             } catch(e) {}
             
+            // Показываем результат
             document.getElementById('code').innerText = code;
             document.getElementById('codeMsg').innerText = code;
-            document.getElementById('result').style.display = 'block';
+            document.getElementById('result').classList.add('show');
         }
         
+        // Копировать код
         function copyCode() {
             let code = document.getElementById('code').innerText;
             navigator.clipboard.writeText(code);
             alert('Код скопирован!');
         }
+        
+        // Показываем недавние покупки при загрузке
+        showRecentPurchases();
     </script>
 </body>
 </html>
