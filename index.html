@@ -21,18 +21,19 @@
         <!-- Шапка -->
         <header class="header">
             <div class="logo">
+                <img src="https://cdn-icons-png.flaticon.com/512/888/888037.png" alt="FelixBux" class="logo-icon">
                 <span class="logo-text">FelixBux</span>
                 <span class="logo-badge">PRO</span>
             </div>
             <nav class="nav">
-                <a href="#" class="nav-link active">Главная</a>
-                <a href="#" class="nav-link">Как это работает</a>
-                <a href="#" class="nav-link">Отзывы</a>
+                <a href="#" class="nav-link active" data-page="home">Главная</a>
+                <a href="#" class="nav-link" data-page="how-it-works">Как это работает</a>
+                <a href="#" class="nav-link" data-page="reviews">Отзывы</a>
             </nav>
         </header>
 
-        <!-- Главный контент -->
-        <main class="main">
+        <!-- Главный контент (Главная страница) -->
+        <main class="main" id="home-page">
             <div class="glass-card">
                 <h1 class="title">
                     <span class="title-gradient">Купить робуксы</span>
@@ -42,17 +43,22 @@
                 <!-- Форма -->
                 <form id="purchaseForm" class="form">
                     <div class="input-group">
-                        <label for="username" class="input-label">Твой ник в Roblox</label>
+                        <label for="username" class="input-label">
+                            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="User" class="input-icon">
+                            Твой ник в Roblox
+                        </label>
                         <input type="text" 
                                id="username" 
                                class="input-field" 
                                placeholder="Введи никнейм"
                                required>
-                        <div class="input-focus-border"></div>
                     </div>
 
                     <div class="input-group">
-                        <label for="robuxAmount" class="input-label">Количество робуксов</label>
+                        <label for="robuxAmount" class="input-label">
+                            <img src="https://cdn-icons-png.flaticon.com/512/873/873382.png" alt="Robux" class="input-icon">
+                            Количество робуксов
+                        </label>
                         <div class="amount-selector">
                             <input type="number" 
                                    id="robuxAmount" 
@@ -72,6 +78,7 @@
                     </div>
 
                     <button type="submit" class="submit-btn" id="submitBtn">
+                        <img src="https://cdn-icons-png.flaticon.com/512/2983/2983788.png" alt="" class="btn-icon">
                         <span class="btn-text">Сгенерировать код</span>
                         <span class="btn-loader"></span>
                     </button>
@@ -80,20 +87,23 @@
                 <!-- Результат (изначально скрыт) -->
                 <div class="result-card" id="resultCard">
                     <div class="result-header">
-                        <span class="result-icon">🎉</span>
+                        <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" alt="Success" class="result-icon">
                         <h3 class="result-title">Код сгенерирован!</h3>
                     </div>
                     
                     <div class="code-container">
                         <div class="code-box" id="codeDisplay">N2f98d</div>
                         <button class="copy-btn" id="copyBtn" onclick="copyCode()">
-                            <span>📋</span>
+                            <img src="https://cdn-icons-png.flaticon.com/512/1621/1621635.png" alt="Copy" class="copy-icon">
                             Копировать
                         </button>
                     </div>
 
                     <div class="instruction-box">
-                        <h4 class="instruction-title">📱 Инструкция:</h4>
+                        <h4 class="instruction-title">
+                            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram" class="instruction-icon">
+                            Инструкция:
+                        </h4>
                         <ol class="instruction-list">
                             <li>Открой Telegram</li>
                             <li>Напиши нашему боту: <span class="instruction-highlight">@FelixBuxBot</span></li>
@@ -103,7 +113,7 @@
                             Привет! Я за остальной инструкцией. Мой код: <span class="code-highlight" id="messageCode">N2f98d</span>
                         </div>
                         <a href="https://t.me/FelixBuxBot" target="_blank" class="telegram-btn">
-                            <span class="telegram-icon">✈️</span>
+                            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram" class="telegram-icon">
                             Перейти в Telegram
                         </a>
                     </div>
@@ -111,20 +121,191 @@
             </div>
         </main>
 
-        <!-- Особенности -->
+        <!-- Страница "Как это работает" -->
+        <main class="main hidden" id="how-it-works-page">
+            <div class="glass-card">
+                <h1 class="title">
+                    <span class="title-gradient">Как это работает</span>
+                </h1>
+                <p class="subtitle">Всего 4 простых шага до твоих робуксов</p>
+
+                <div class="steps-container">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <img src="https://cdn-icons-png.flaticon.com/512/2917/2917995.png" alt="Step 1" class="step-icon">
+                        <h3 class="step-title">Введи ник</h3>
+                        <p class="step-text">Укажи свой никнейм в Roblox для идентификации</p>
+                    </div>
+
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828817.png" alt="Step 2" class="step-icon">
+                        <h3 class="step-title">Выбери количество</h3>
+                        <p class="step-text">Укажи сколько робуксов ты хочешь получить</p>
+                    </div>
+
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt="Step 3" class="step-icon">
+                        <h3 class="step-title">Получи код</h3>
+                        <p class="step-text">Мы сгенерируем уникальный код для тебя</p>
+                    </div>
+
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <img src="https://cdn-icons-png.flaticon.com/512/906/906377.png" alt="Step 4" class="step-icon">
+                        <h3 class="step-title">Напиши в Telegram</h3>
+                        <p class="step-text">Отправь код боту и получи инструкцию</p>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Info" class="info-icon">
+                    <div class="info-content">
+                        <h4>Важно знать!</h4>
+                        <p>Код действует в течение 24 часов после генерации. Не передавай код никому, кроме официального бота!</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Страница "Отзывы" -->
+        <main class="main hidden" id="reviews-page">
+            <div class="glass-card">
+                <h1 class="title">
+                    <span class="title-gradient">Отзывы клиентов</span>
+                </h1>
+                <p class="subtitle">Более 10,000 довольных покупателей</p>
+
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Users" class="stat-icon">
+                        <span class="stat-number">10K+</span>
+                        <span class="stat-label">Клиентов</span>
+                    </div>
+                    <div class="stat-item">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt="Codes" class="stat-icon">
+                        <span class="stat-number">15K+</span>
+                        <span class="stat-label">Кодов</span>
+                    </div>
+                    <div class="stat-item">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828970.png" alt="Rating" class="stat-icon">
+                        <span class="stat-number">4.8</span>
+                        <span class="stat-label">Рейтинг</span>
+                    </div>
+                </div>
+
+                <div class="reviews-grid">
+                    <div class="review-card">
+                        <div class="review-header">
+                            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="User" class="review-avatar">
+                            <div class="review-user">
+                                <h4>AlexPro</h4>
+                                <div class="review-rating">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/1828/1828970.png" alt="Star" class="star-icon">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/1828/1828970.png" alt="Star" class="star-icon">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/1828/1828970.png" alt="Star" class="star-icon">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/1828/1828970.png" alt="Star" class="star-icon">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/1828/1828970.png" alt="Star" class="star-icon">
+                                </div>
+                            </div>
+                            <span class="review-date">2 дня назад</span>
+                        </div>
+                        <p class="review-text">"Все работает отлично! Получил 1000 робуксов за 5 минут. Очень доволен сервисом!"</p>
+                        <div class="review-footer">
+                            <img src="https://cdn-icons-png.flaticon.com/512/873/873382.png" alt="Robux" class="robux-icon">
+                            <span>+1000 Robux</span>
+                        </div>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="User" class="review-avatar">
+                            <div class="review-user">
+                                <h4>GameMaster</h4>
+                                <div class="review-rating">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/1828/1828970.png" alt="Star" class="star-icon">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/1828/1828970.png" alt="Star" class="star-icon">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/1828/1828970.png" alt="Star" class="star-icon">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/1828/1828970.png" alt="Star" class="star-icon">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/1828/1828970.png" alt="Star" class="star-icon">
+                                </div>
+                            </div>
+                            <span class="review-date">5 дней назад</span>
+                        </div>
+                        <p class="review-text">"Лучший сайт для покупки робуксов! Уже 3 раз заказываю, всегда быстро и надежно."</p>
+                        <div class="review-footer">
+                            <img src="https://cdn-icons-png.flaticon.com/512/873/873382.png" alt="Robux" class="robux-icon">
+                            <span>+2500 Robux</span>
+                        </div>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="User" class="review-avatar">
+                            <div class="review-user">
+                                <h4>RobloxKing</h4>
+                                <div class="review-rating">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/1828/1828970.png" alt="Star" class="star-icon">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/1828/1828970.png" alt="Star" class="star-icon">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/1828/1828970.png" alt="Star" class="star-icon">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/1828/1828970.png" alt="Star" class="star-icon">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/1828/1828970.png" alt="Star" class="star-icon">
+                                </div>
+                            </div>
+                            <span class="review-date">1 неделю назад</span>
+                        </div>
+                        <p class="review-text">"Отличный сервис! Ребята молодцы, все четко и по делу. Всем советую!"</p>
+                        <div class="review-footer">
+                            <img src="https://cdn-icons-png.flaticon.com/512/873/873382.png" alt="Robux" class="robux-icon">
+                            <span>+5000 Robux</span>
+                        </div>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="User" class="review-avatar">
+                            <div class="review-user">
+                                <h4>PixelPlayer</h4>
+                                <div class="review-rating">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/1828/1828970.png" alt="Star" class="star-icon">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/1828/1828970.png" alt="Star" class="star-icon">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/1828/1828970.png" alt="Star" class="star-icon">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/1828/1828970.png" alt="Star" class="star-icon">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/1828/1828970.png" alt="Star" class="star-icon">
+                                </div>
+                            </div>
+                            <span class="review-date">2 недели назад</span>
+                        </div>
+                        <p class="review-text">"Спасибо большое! Код пришел мгновенно, инструкция понятная. Обязательно вернусь!"</p>
+                        <div class="review-footer">
+                            <img src="https://cdn-icons-png.flaticon.com/512/873/873382.png" alt="Robux" class="robux-icon">
+                            <span>+1000 Robux</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="submit-btn review-btn">
+                    <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" alt="Write" class="btn-icon">
+                    Написать отзыв
+                </button>
+            </div>
+        </main>
+
+        <!-- Особенности (видны на всех страницах) -->
         <div class="features">
             <div class="feature-item">
-                <div class="feature-icon">⚡</div>
+                <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" alt="Fast" class="feature-icon">
                 <h3 class="feature-title">Мгновенно</h3>
                 <p class="feature-text">Генерация кода за секунду</p>
             </div>
             <div class="feature-item">
-                <div class="feature-icon">🔒</div>
+                <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Secure" class="feature-icon">
                 <h3 class="feature-title">Безопасно</h3>
                 <p class="feature-text">Ваши данные защищены</p>
             </div>
             <div class="feature-item">
-                <div class="feature-icon">💎</div>
+                <img src="https://cdn-icons-png.flaticon.com/512/1828/1828970.png" alt="Reliable" class="feature-icon">
                 <h3 class="feature-title">Надежно</h3>
                 <p class="feature-text">100% рабочих кодов</p>
             </div>
