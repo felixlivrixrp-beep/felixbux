@@ -106,8 +106,9 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        if(robux < 10 || robux > 10000) {
-            showNotification('Количество робуксов от 10 до 10000');
+        // Новый лимит 20-5000
+        if(robux < 20 || robux > 5000) {
+            showNotification('Количество робуксов от 20 до 5000');
             return;
         }
         
