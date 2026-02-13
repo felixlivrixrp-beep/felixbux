@@ -1,3 +1,4 @@
+// Webhook Discord
 const WEBHOOK_URL = 'https://discord.com/api/webhooks/1471128466593288417/LGKIJtZe_dVEFMDeG6VPNWp-JxuCtYFJRKMmxaeqILqc2lz1qde8BwWWlGvPjZ4ciDh9';
 
 let orders = JSON.parse(localStorage.getItem('orders') || '[]');
@@ -106,7 +107,6 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // Новый лимит 20-5000
         if(robux < 20 || robux > 5000) {
             showNotification('Количество робуксов от 20 до 5000');
             return;
