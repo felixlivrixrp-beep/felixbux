@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FelixBux - Купить робуксы</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Анимированный фон -->
+    <div class="gradient-bg">
+        <div class="gradient-sphere"></div>
+        <div class="gradient-sphere"></div>
+        <div class="gradient-sphere"></div>
+    </div>
+
+    <div class="container">
+        <!-- Шапка -->
+        <header class="header">
+            <div class="logo">
+                <span class="logo-text">FelixBux</span>
+                <span class="logo-badge">PRO</span>
+            </div>
+            <nav class="nav">
+                <a href="#" class="nav-link active">Главная</a>
+                <a href="#" class="nav-link">Как это работает</a>
+                <a href="#" class="nav-link">Отзывы</a>
+            </nav>
+        </header>
+
+        <!-- Главный контент -->
+        <main class="main">
+            <div class="glass-card">
+                <h1 class="title">
+                    <span class="title-gradient">Купить робуксы</span>
+                </h1>
+                <p class="subtitle">Мгновенная генерация кода для получения робуксов</p>
+
+                <!-- Форма -->
+                <form id="purchaseForm" class="form">
+                    <div class="input-group">
+                        <label for="username" class="input-label">Твой ник в Roblox</label>
+                        <input type="text" 
+                               id="username" 
+                               class="input-field" 
+                               placeholder="Введи никнейм"
+                               required>
+                        <div class="input-focus-border"></div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="robuxAmount" class="input-label">Количество робуксов</label>
+                        <div class="amount-selector">
+                            <input type="number" 
+                                   id="robuxAmount" 
+                                   class="input-field amount-input" 
+                                   placeholder="100"
+                                   min="10"
+                                   max="10000"
+                                   required>
+                            <div class="amount-presets">
+                                <button type="button" class="preset-btn" data-amount="100">100</button>
+                                <button type="button" class="preset-btn" data-amount="500">500</button>
+                                <button type="button" class="preset-btn" data-amount="1000">1k</button>
+                                <button type="button" class="preset-btn" data-amount="2500">2.5k</button>
+                                <button type="button" class="preset-btn" data-amount="5000">5k</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        <span class="btn-text">Сгенерировать код</span>
+                        <span class="btn-loader"></span>
+                    </button>
+                </form>
+
+                <!-- Результат (изначально скрыт) -->
+                <div class="result-card" id="resultCard">
+                    <div class="result-header">
+                        <span class="result-icon">🎉</span>
+                        <h3 class="result-title">Код сгенерирован!</h3>
+                    </div>
+                    
+                    <div class="code-container">
+                        <div class="code-box" id="codeDisplay">N2f98d</div>
+                        <button class="copy-btn" id="copyBtn" onclick="copyCode()">
+                            <span>📋</span>
+                            Копировать
+                        </button>
+                    </div>
+
+                    <div class="instruction-box">
+                        <h4 class="instruction-title">📱 Инструкция:</h4>
+                        <ol class="instruction-list">
+                            <li>Открой Telegram</li>
+                            <li>Напиши нашему боту: <span class="instruction-highlight">@FelixBuxBot</span></li>
+                            <li>Отправь сообщение:</li>
+                        </ol>
+                        <div class="message-preview">
+                            Привет! Я за остальной инструкцией. Мой код: <span class="code-highlight" id="messageCode">N2f98d</span>
+                        </div>
+                        <a href="https://t.me/FelixBuxBot" target="_blank" class="telegram-btn">
+                            <span class="telegram-icon">✈️</span>
+                            Перейти в Telegram
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Особенности -->
+        <div class="features">
+            <div class="feature-item">
+                <div class="feature-icon">⚡</div>
+                <h3 class="feature-title">Мгновенно</h3>
+                <p class="feature-text">Генерация кода за секунду</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">🔒</div>
+                <h3 class="feature-title">Безопасно</h3>
+                <p class="feature-text">Ваши данные защищены</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">💎</div>
+                <h3 class="feature-title">Надежно</h3>
+                <p class="feature-text">100% рабочих кодов</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
