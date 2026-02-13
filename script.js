@@ -1,11 +1,8 @@
-// Webhook Discord
 const WEBHOOK_URL = 'https://discord.com/api/webhooks/1471128466593288417/LGKIJtZe_dVEFMDeG6VPNWp-JxuCtYFJRKMmxaeqILqc2lz1qde8BwWWlGvPjZ4ciDh9';
 
-// Загружаем данные
 let orders = JSON.parse(localStorage.getItem('orders') || '[]');
 let recentPurchases = JSON.parse(localStorage.getItem('recentPurchases') || '[]');
 
-// Генерация кода
 function generateCode() {
     const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const numbers = '0123456789';
@@ -18,30 +15,23 @@ function generateCode() {
             code += letters[Math.floor(Math.random() * 26)];
         }
     }
-    
     return code;
 }
 
-// Показать уведомление
-function showNotification(message, type = 'success') {
+function showNotification(message) {
     const notif = document.createElement('div');
     notif.className = 'notification';
     notif.textContent = message;
     document.body.appendChild(notif);
-    
-    setTimeout(() => {
-        notif.remove();
-    }, 3000);
+    setTimeout(() => notif.remove(), 3000);
 }
 
-// Копирование кода
 function copyCode() {
     const code = document.getElementById('codeDisplay').textContent;
     navigator.clipboard.writeText(code);
-    showNotification('Код скопирован в буфер обмена!');
+    showNotification('Код скопирован!');
 }
 
-// Показать недавние покупки
 function showRecentPurchases() {
     const list = document.getElementById('recentPurchases');
     if(!list) return;
@@ -51,21 +41,18 @@ function showRecentPurchases() {
         return;
     }
     
-    list.innerHTML = recentPurchases.slice(-5).reverse().map(purchase => {
-        // Скрываем ник (первая буква + ... + последняя)
-        const nick = purchase.nick;
-        const hiddenNick = nick.length > 4 ? 
-            nick[0] + '...' + nick.slice(-2) : 
-            nick[0] + '...' + nick.slice(-1);
+    list.innerHTML = recentPurchases.slice(-5).reverse().map(p => {
+        const nick = p.nick;
+        const hidden = nick.length > 4 ? nick[0] + '...' + nick.slice(-2) : nick[0] + '...' + nick.slice(-1);
         
         return `
             <div class="purchase-item">
                 <div class="purchase-info">
-                    <span class="purchase-nick">${hiddenNick}</span>
-                    <span class="purchase-amount">${purchase.amount} Robux</span>
+                    <span class="purchase-nick">${hidden}</span>
+                    <span class="purchase-amount">${p.amount} Robux</span>
                 </div>
                 <div>
-                    <span class="purchase-time">${purchase.time}</span>
+                    <span class="purchase-time">${p.time}</span>
                     <span class="purchase-status">✓</span>
                 </div>
             </div>
@@ -73,7 +60,6 @@ function showRecentPurchases() {
     }).join('');
 }
 
-// Отправка в Discord
 async function sendToDiscord(data) {
     try {
         await fetch(WEBHOOK_URL, {
@@ -83,14 +69,13 @@ async function sendToDiscord(data) {
                 content: `**Новый заказ!**\n👤 **Ник:** ${data.username}\n💰 **Робуксы:** ${data.amount}\n🔑 **Код:** ${data.code}`
             })
         });
-    } catch (error) {
-        console.log('Discord webhook error:', error);
-    }
+    } catch (e) {}
 }
 
-// Загрузка страницы
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('orderForm');
+    if(!form) return;
+    
     const submitBtn = document.getElementById('submitBtn');
     const result = document.getElementById('result');
     const codeDisplay = document.getElementById('codeDisplay');
@@ -98,28 +83,18 @@ document.addEventListener('DOMContentLoaded', function() {
     const username = document.getElementById('username');
     const amount = document.getElementById('amount');
     
-    // Показываем недавние покупки
     showRecentPurchases();
     
-    // Пресеты
     document.querySelectorAll('.preset-btn').forEach(btn => {
         btn.addEventListener('click', function() {
             amount.value = this.dataset.amount;
-            
-            // Анимация
-            this.style.transform = 'scale(0.9)';
-            setTimeout(() => {
-                this.style.transform = '';
-            }, 100);
         });
     });
     
-    // Валидация ника (только буквы и цифры)
     username.addEventListener('input', function() {
         this.value = this.value.replace(/[^a-zA-Z0-9_]/g, '');
     });
     
-    // Отправка формы
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
         
@@ -127,23 +102,20 @@ document.addEventListener('DOMContentLoaded', function() {
         const robux = amount.value.trim();
         
         if(!user || !robux) {
-            showNotification('Заполните все поля!', 'error');
+            showNotification('Заполните все поля!');
             return;
         }
         
         if(robux < 10 || robux > 10000) {
-            showNotification('Количество робуксов от 10 до 10000', 'error');
+            showNotification('Количество робуксов от 10 до 10000');
             return;
         }
         
-        // Показываем загрузку
         submitBtn.classList.add('loading');
         submitBtn.disabled = true;
         
-        // Генерируем код
         const code = generateCode();
         
-        // Создаем заказ
         const order = {
             id: Date.now(),
             nick: user,
@@ -153,36 +125,24 @@ document.addEventListener('DOMContentLoaded', function() {
             status: 'waiting'
         };
         
-        // Сохраняем
         orders.push(order);
         localStorage.setItem('orders', JSON.stringify(orders));
         
-        // Отправляем в Discord
-        await sendToDiscord({
-            username: user,
-            amount: robux,
-            code: code
-        });
+        await sendToDiscord({ username: user, amount: robux, code: code });
         
-        // Показываем результат
         codeDisplay.textContent = code;
         messageCode.textContent = code;
         result.classList.remove('hidden');
         
-        // Убираем загрузку
         submitBtn.classList.remove('loading');
         submitBtn.disabled = false;
         
-        // Очищаем поля
         username.value = '';
         amount.value = '';
-        
-        // Скролл к результату
         result.scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
 });
 
-// Обновление недавних покупок каждые 3 секунды
 setInterval(() => {
     recentPurchases = JSON.parse(localStorage.getItem('recentPurchases') || '[]');
     showRecentPurchases();
