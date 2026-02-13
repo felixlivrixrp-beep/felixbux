@@ -362,4 +362,47 @@ body {
 
 .stars {
     display: flex;
-    gap:
+    gap: 2px;
+}
+
+/* Особенности */
+.features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.feature-item {
+    text-align: center;
+    padding: 20px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 20px;
+}
+
+.feature-icon {
+    width: 30px;
+    height: 30px;
+    margin-bottom: 8px;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .title {
+        font-size: 32px;
+    }
+    
+    .steps-container,
+    .features,
+    .stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .code-container {
+        flex-direction: column;
+    }
+}
