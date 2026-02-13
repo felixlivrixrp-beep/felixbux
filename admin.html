@@ -4,65 +4,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FelixBux - Админ панель</title>
-    <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Стили (как в предыдущих версиях, можно скопировать из рабочего варианта) */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         body { background: linear-gradient(135deg, #001f3f, #0066cc); min-height: 100vh; padding: 20px; color: white; }
         .container { max-width: 1200px; margin: 0 auto; }
-        .header { background: rgba(255,255,255,0.1); padding: 20px; border-radius: 50px; display: flex; justify-content: space-between; margin-bottom: 30px; }
-        .logo { font-size: 24px; color: #66ccff; font-weight: bold; }
-        .admin-btn { background: #66ccff; color: #001f3f; padding: 10px 25px; border-radius: 30px; text-decoration: none; }
-        .login-box { max-width: 400px; margin: 100px auto; background: rgba(255,255,255,0.1); padding: 40px; border-radius: 40px; text-align: center; }
-        .login-box h2 { color: #66ccff; margin-bottom: 30px; }
-        .login-box input { width: 100%; padding: 15px; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 30px; color: white; margin-bottom: 20px; }
-        .login-box button { width: 100%; padding: 15px; background: linear-gradient(135deg, #0066cc, #66ccff); border: none; border-radius: 30px; color: white; font-size: 18px; cursor: pointer; }
+        
+        /* Шапка */
+        .header { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); border-radius: 50px; padding: 15px 25px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 24px; font-weight: 700; color: #66ccff; }
+        .badge { background: linear-gradient(135deg, #0066cc, #66ccff); padding: 4px 8px; border-radius: 20px; font-size: 12px; }
+        .main-btn { background: #66ccff; color: #001f3f; padding: 8px 20px; border-radius: 30px; text-decoration: none; font-weight: 500; }
+        
+        /* Форма входа */
+        .login-box { max-width: 400px; margin: 100px auto; background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); border-radius: 40px; padding: 40px; text-align: center; }
+        .login-title { font-size: 28px; color: #66ccff; margin-bottom: 30px; }
+        .login-input { width: 100%; padding: 15px; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 30px; color: white; font-size: 16px; margin-bottom: 20px; }
+        .login-input:focus { outline: none; border-color: #66ccff; }
+        .login-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #0066cc, #66ccff); border: none; border-radius: 30px; color: white; font-size: 18px; font-weight: 600; cursor: pointer; }
         .error { color: #ff4444; margin-top: 15px; display: none; }
+        
+        /* Админ панель */
         .admin-panel { display: none; }
-        .stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-bottom: 30px; }
-        .stat-card { background: rgba(255,255,255,0.1); padding: 25px; border-radius: 30px; text-align: center; }
-        .stat-value { font-size: 42px; color: #66ccff; font-weight: bold; }
-        .orders { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 40px; }
-        table { width: 100%; border-collapse: collapse; }
+        .admin-message { background: linear-gradient(135deg, #0066cc, #66ccff); border-radius: 30px; padding: 20px; margin-bottom: 30px; display: flex; align-items: center; gap: 20px; }
+        .admin-avatar { width: 60px; height: 60px; border-radius: 50%; border: 3px solid white; }
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); border-radius: 30px; padding: 25px; text-align: center; }
+        .stat-value { font-size: 42px; font-weight: 700; color: #66ccff; margin-bottom: 5px; }
+        .orders-table { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); border-radius: 40px; padding: 30px; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; color: white; }
         th { text-align: left; padding: 15px; color: #66ccff; border-bottom: 2px solid rgba(255,255,255,0.1); }
         td { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .status-waiting { background: rgba(255,165,0,0.2); color: orange; padding: 5px 12px; border-radius: 20px; }
-        .status-paid { background: rgba(0,255,0,0.2); color: #00ff00; padding: 5px 12px; border-radius: 20px; }
-        .status-cancelled { background: rgba(255,0,0,0.2); color: #ff4444; padding: 5px 12px; border-radius: 20px; }
-        .action-btn { padding: 8px 15px; border: none; border-radius: 20px; cursor: pointer; margin-right: 5px; }
+        .status { padding: 5px 12px; border-radius: 20px; font-size: 12px; display: inline-block; }
+        .status-waiting { background: rgba(255,165,0,0.2); color: orange; }
+        .status-paid { background: rgba(0,255,0,0.2); color: #00ff00; }
+        .status-cancelled { background: rgba(255,0,0,0.2); color: #ff4444; }
+        .action-btn { padding: 8px 15px; border: none; border-radius: 20px; cursor: pointer; font-size: 12px; margin-right: 5px; }
         .pay-btn { background: #00ff00; color: #001f3f; }
         .cancel-btn { background: #ff4444; color: white; }
-        .admin-message { background: linear-gradient(135deg, #0066cc, #66ccff); padding: 20px; border-radius: 30px; display: flex; align-items: center; gap: 20px; margin-bottom: 30px; }
-        .admin-avatar { width: 60px; height: 60px; border-radius: 50%; border: 3px solid white; }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Шапка -->
         <div class="header">
-            <div class="logo">FelixBux Admin</div>
-            <a href="index.html" class="admin-btn">← На главную</a>
+            <div class="logo">FelixBux Admin <span class="badge">PRO</span></div>
+            <a href="index.html" class="main-btn">← На главную</a>
         </div>
 
         <!-- Форма входа -->
         <div id="loginForm" class="login-box">
-            <h2>🔐 Вход в админ-панель</h2>
-            <input type="password" id="passwordInput" placeholder="Введи пароль">
-            <button onclick="checkPass()">Войти</button>
-            <div class="error" id="errorMsg">Неверный пароль!</div>
+            <h2 class="login-title">🔐 Вход в админ-панель</h2>
+            <input type="text" id="loginUsername" class="login-input" placeholder="Логин">
+            <input type="password" id="loginPassword" class="login-input" placeholder="Пароль">
+            <button class="login-btn" onclick="login()">Войти</button>
+            <div class="error" id="loginError">Неверный логин или пароль!</div>
         </div>
 
-        <!-- Админ панель (скрыта) -->
+        <!-- Админ панель -->
         <div id="adminPanel" class="admin-panel">
+            <!-- Сообщение от админа -->
             <div class="admin-message">
                 <img src="https://tr.rbxcdn.com/30DAY-AvatarHeadshot-1F5C01B1F1AB60651132AD3AC60F41EA-Png/150/150/AvatarHeadshot/Webp/noFilter" class="admin-avatar" onerror="this.src='https://i.imgur.com/7k12qDc.png'">
                 <div>
                     <h3>👑 FelixBux Admin</h3>
-                    <p>Привет! Я создатель FelixBux. Пиши в Telegram: @FelixBuxSupport</p>
+                    <p>Привет! Ты в админ-панели. Здесь все заказы.</p>
                 </div>
             </div>
 
-            <div class="stats">
+            <!-- Статистика -->
+            <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-value" id="totalOrders">0</div>
                     <div>Всего заказов</div>
@@ -77,7 +88,8 @@
                 </div>
             </div>
 
-            <div class="orders">
+            <!-- Таблица заказов -->
+            <div class="orders-table">
                 <h2 style="margin-bottom: 20px;">📋 Все заказы</h2>
                 <table>
                     <thead>
@@ -90,7 +102,7 @@
                             <th>Действия</th>
                         </tr>
                     </thead>
-                    <tbody id="ordersTable">
+                    <tbody id="ordersBody">
                         <tr><td colspan="6" style="text-align: center; padding: 40px;">Загрузка...</td></tr>
                     </tbody>
                 </table>
@@ -99,37 +111,33 @@
     </div>
 
     <script>
-        // ПАРОЛЬ СПРЯТАН: представлен в виде массива кодов символов
-        // Это числа: F e l i x 2 0 1 3 L i v r i x
-        const passwordChars = [70, 101, 108, 105, 120, 50, 48, 49, 51, 76, 105, 118, 114, 105, 120];
-        const ADMIN_PASSWORD = String.fromCharCode.apply(null, passwordChars); // получаем "Felix2013Livrix"
+        // Логин и пароль
+        const ADMIN_LOGIN = 'Felix';
+        const ADMIN_PASSWORD = 'Felix2013FelixBux';
 
-        function checkPass() {
-            let pass = document.getElementById('passwordInput').value;
-            if (pass === ADMIN_PASSWORD) {
+        // Проверка логина
+        function login() {
+            const user = document.getElementById('loginUsername').value;
+            const pass = document.getElementById('loginPassword').value;
+
+            if (user === ADMIN_LOGIN && pass === ADMIN_PASSWORD) {
                 document.getElementById('loginForm').style.display = 'none';
                 document.getElementById('adminPanel').style.display = 'block';
-                loadOrders();
                 sessionStorage.setItem('admin', 'ok');
+                loadOrders();
             } else {
-                document.getElementById('errorMsg').style.display = 'block';
-                document.getElementById('passwordInput').value = '';
+                document.getElementById('loginError').style.display = 'block';
             }
         }
 
-        // Восстановление сессии
+        // Проверка сессии
         if (sessionStorage.getItem('admin') === 'ok') {
             document.getElementById('loginForm').style.display = 'none';
             document.getElementById('adminPanel').style.display = 'block';
         }
 
-        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') checkPass();
-        });
-
-        // --- Работа с заказами ---
-        let orders = JSON.parse(localStorage.getItem('orders') || '[]');
-        let recent = JSON.parse(localStorage.getItem('recentPurchases') || '[]');
+        // Заказы
+        let orders = [];
 
         function loadOrders() {
             orders = JSON.parse(localStorage.getItem('orders') || '[]');
@@ -147,6 +155,7 @@
             orders = orders.map(o => {
                 if (o.id === id) {
                     o.status = 'paid';
+                    let recent = JSON.parse(localStorage.getItem('recentPurchases') || '[]');
                     recent.push({ nick: o.nick, amount: o.amount, time: new Date().toLocaleTimeString() });
                     if (recent.length > 10) recent = recent.slice(-10);
                     localStorage.setItem('recentPurchases', JSON.stringify(recent));
@@ -169,24 +178,26 @@
         }
 
         function deleteOrder(id) {
-            if (confirm('Удалить заказ навсегда?')) {
+            if (confirm('Удалить заказ?')) {
                 orders = orders.filter(o => o.id !== id);
                 localStorage.setItem('orders', JSON.stringify(orders));
-
+                
                 let paid = orders.filter(o => o.status === 'paid');
-                recent = paid.slice(-10).map(o => ({ nick: o.nick, amount: o.amount, time: o.time }));
+                let recent = paid.slice(-10).map(o => ({ nick: o.nick, amount: o.amount, time: o.time }));
                 localStorage.setItem('recentPurchases', JSON.stringify(recent));
-
+                
                 loadOrders();
             }
         }
 
         function renderOrders() {
-            let tbody = document.getElementById('ordersTable');
+            let tbody = document.getElementById('ordersBody');
+            
             if (orders.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 40px;">Нет заказов</td></tr>';
                 return;
             }
+
             tbody.innerHTML = orders.reverse().map(o => {
                 let statusClass = 'status-waiting';
                 let statusText = 'Ожидает';
@@ -195,11 +206,11 @@
 
                 return `
                     <tr>
-                        <td><b style="color:#66ccff;">${o.nick}</b></td>
+                        <td><strong style="color:#66ccff;">${o.nick}</strong></td>
                         <td>${o.amount} Robux</td>
                         <td style="color:#66ccff;">${o.code}</td>
                         <td>${o.time}</td>
-                        <td><span class="${statusClass}">${statusText}</span></td>
+                        <td><span class="status ${statusClass}">${statusText}</span></td>
                         <td>
                             ${o.status === 'waiting' 
                                 ? `<button class="action-btn pay-btn" onclick="payOrder(${o.id})">✓ Оплатить</button>
@@ -212,7 +223,7 @@
             }).join('');
         }
 
-        // Если админка открыта сразу (сессия есть), загружаем заказы
+        // Загружаем заказы если уже в админке
         if (sessionStorage.getItem('admin') === 'ok') {
             loadOrders();
         }
