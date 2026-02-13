@@ -21,9 +21,9 @@
         }
         
         .stat-card {
-            background: var(--glass-bg);
+            background: rgba(255,255,255,0.1);
             backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
+            border: 1px solid rgba(255,255,255,0.2);
             border-radius: 30px;
             padding: 25px;
             text-align: center;
@@ -32,18 +32,19 @@
         .stat-value {
             font-size: 42px;
             font-weight: 700;
-            color: var(--light-blue);
+            color: #66ccff;
             margin-bottom: 5px;
         }
         
         .stat-label {
             opacity: 0.8;
+            color: white;
         }
         
         .orders-table {
-            background: var(--glass-bg);
+            background: rgba(255,255,255,0.1);
             backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
+            border: 1px solid rgba(255,255,255,0.2);
             border-radius: 40px;
             padding: 30px;
             overflow-x: auto;
@@ -52,12 +53,13 @@
         table {
             width: 100%;
             border-collapse: collapse;
+            color: white;
         }
         
         th {
             text-align: left;
             padding: 15px;
-            color: var(--light-blue);
+            color: #66ccff;
             font-weight: 600;
             border-bottom: 2px solid rgba(255,255,255,0.1);
         }
@@ -119,9 +121,9 @@
         .login-container {
             max-width: 400px;
             margin: 100px auto;
-            background: var(--glass-bg);
+            background: rgba(255,255,255,0.1);
             backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
+            border: 1px solid rgba(255,255,255,0.2);
             border-radius: 40px;
             padding: 40px;
             text-align: center;
@@ -130,7 +132,7 @@
         .login-title {
             font-size: 28px;
             margin-bottom: 30px;
-            color: var(--light-blue);
+            color: #66ccff;
         }
         
         .login-input {
@@ -146,7 +148,7 @@
         
         .login-input:focus {
             outline: none;
-            border-color: var(--light-blue);
+            border-color: #66ccff;
         }
         
         .login-btn {
@@ -203,7 +205,7 @@
     <!-- Форма входа -->
     <div class="login-container" id="loginForm">
         <h2 class="login-title">🔐 Вход в админ-панель</h2>
-        <input type="password" id="adminPassword" class="login-input" placeholder="Введи пароль" onkeypress="if(event.key==='Enter') checkPassword()">
+        <input type="password" id="adminPassword" class="login-input" placeholder="Введи пароль">
         <button class="login-btn" onclick="checkPassword()">Войти</button>
         <div class="error-message" id="loginError">Неверный пароль!</div>
     </div>
@@ -211,12 +213,12 @@
     <!-- Админ панель (скрыта) -->
     <div class="admin-content" id="adminContent">
         <div class="admin-container">
-            <div class="header">
-                <div class="logo">
-                    <span class="logo-text">FelixBux Admin</span>
-                    <span class="badge">PRO</span>
+            <div class="header" style="background: rgba(255,255,255,0.1); padding: 20px 30px; border-radius: 50px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+                <div class="logo" style="display: flex; align-items: center; gap: 10px;">
+                    <span class="logo-text" style="font-size: 24px; font-weight: 700; color: #66ccff;">FelixBux Admin</span>
+                    <span class="badge" style="background: linear-gradient(135deg, #0066cc, #66ccff); padding: 4px 8px; border-radius: 20px; font-size: 12px; color: white;">PRO</span>
                 </div>
-                <a href="index.html" class="admin-btn">← На главную</a>
+                <a href="index.html" class="admin-btn" style="background: #66ccff; color: #001f3f; padding: 10px 25px; border-radius: 30px; text-decoration: none; font-weight: bold;">← На главную</a>
             </div>
 
             <div class="stats-grid" id="stats">
@@ -235,7 +237,7 @@
             </div>
 
             <div class="orders-table">
-                <h2 style="margin-bottom: 20px;">📋 Все заказы</h2>
+                <h2 style="margin-bottom: 20px; color: white;">📋 Все заказы</h2>
                 <table id="ordersTable">
                     <thead>
                         <tr>
@@ -249,7 +251,7 @@
                     </thead>
                     <tbody id="ordersBody">
                         <tr>
-                            <td colspan="6" style="text-align: center; opacity: 0.5; padding: 40px;">
+                            <td colspan="6" style="text-align: center; opacity: 0.5; padding: 40px; color: white;">
                                 Загрузка...
                             </td>
                         </tr>
@@ -260,8 +262,8 @@
     </div>
 
     <script>
-        // Пароль (можешь изменить)
-        const ADMIN_PASSWORD = 'Felix123Livrix';
+        // ТВОЙ ПАРОЛЬ: Felix2013Livrix
+        const ADMIN_PASSWORD = 'Felix2013Livrix';
         
         // Проверка пароля
         function checkPassword() {
@@ -279,6 +281,13 @@
                 document.getElementById('adminPassword').value = '';
             }
         }
+        
+        // Нажатие Enter в поле пароля
+        document.getElementById('adminPassword').addEventListener('keypress', function(e) {
+            if(e.key === 'Enter') {
+                checkPassword();
+            }
+        });
         
         let orders = [];
         let recentPurchases = JSON.parse(localStorage.getItem('recentPurchases') || '[]');
@@ -340,8 +349,7 @@
                 orders = orders.filter(order => order.id !== id);
                 localStorage.setItem('orders', JSON.stringify(orders));
                 
-                // Удаляем из недавних покупок (если там есть этот заказ)
-                // Проще перезаписать recentPurchases правильными данными
+                // Обновляем недавние покупки (только оплаченные)
                 const paidOrders = orders.filter(o => o.status === 'paid');
                 recentPurchases = paidOrders.slice(-10).map(o => ({
                     nick: o.nick,
@@ -361,7 +369,7 @@
             if(orders.length === 0) {
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="6" style="text-align: center; opacity: 0.5; padding: 40px;">
+                        <td colspan="6" style="text-align: center; opacity: 0.5; padding: 40px; color: white;">
                             Нет заказов
                         </td>
                     </tr>
@@ -384,9 +392,9 @@
                 return `
                     <tr>
                         <td><strong style="color: #66ccff;">${order.nick}</strong></td>
-                        <td>${order.amount} Robux</td>
-                        <td style="font-family: monospace; font-size: 16px;">${order.code}</td>
-                        <td style="opacity: 0.7; font-size: 14px;">${order.time}</td>
+                        <td style="color: white;">${order.amount} Robux</td>
+                        <td style="font-family: monospace; font-size: 16px; color: #66ccff;">${order.code}</td>
+                        <td style="opacity: 0.7; font-size: 14px; color: white;">${order.time}</td>
                         <td><span class="status ${statusClass}">${statusText}</span></td>
                         <td>
                             ${order.status === 'waiting' ? 
@@ -400,8 +408,7 @@
             }).join('');
         }
         
-        // Проверяем, может уже есть сессия (если заходили раньше)
-        // Но для простоты всегда показываем вход
+        // Загружаем если уже вошли (но для простоты всегда показываем вход)
     </script>
 </body>
 </html>
