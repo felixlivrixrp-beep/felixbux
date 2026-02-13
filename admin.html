@@ -115,6 +115,68 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
         
+        /* Стили для входа */
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 40px;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .login-title {
+            font-size: 28px;
+            margin-bottom: 30px;
+            color: var(--light-blue);
+        }
+        
+        .login-input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 30px;
+            color: white;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .login-input:focus {
+            outline: none;
+            border-color: var(--light-blue);
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #0066cc, #66ccff);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102,204,255,0.3);
+        }
+        
+        .error-message {
+            color: #ff4444;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        .admin-content {
+            display: none;
+        }
+        
         @media (max-width: 768px) {
             .stats-grid {
                 grid-template-columns: 1fr;
@@ -138,55 +200,86 @@
         <div class="sphere"></div>
     </div>
 
-    <div class="admin-container">
-        <div class="header">
-            <div class="logo">
-                <span class="logo-text">FelixBux Admin</span>
-                <span class="badge">PRO</span>
-            </div>
-            <a href="index.html" class="admin-btn">← На главную</a>
-        </div>
+    <!-- Форма входа -->
+    <div class="login-container" id="loginForm">
+        <h2 class="login-title">🔐 Вход в админ-панель</h2>
+        <input type="password" id="adminPassword" class="login-input" placeholder="Введи пароль" onkeypress="if(event.key==='Enter') checkPassword()">
+        <button class="login-btn" onclick="checkPassword()">Войти</button>
+        <div class="error-message" id="loginError">Неверный пароль!</div>
+    </div>
 
-        <div class="stats-grid" id="stats">
-            <div class="stat-card">
-                <div class="stat-value" id="totalOrders">0</div>
-                <div class="stat-label">Всего заказов</div>
+    <!-- Админ панель (скрыта) -->
+    <div class="admin-content" id="adminContent">
+        <div class="admin-container">
+            <div class="header">
+                <div class="logo">
+                    <span class="logo-text">FelixBux Admin</span>
+                    <span class="badge">PRO</span>
+                </div>
+                <a href="index.html" class="admin-btn">← На главную</a>
             </div>
-            <div class="stat-card">
-                <div class="stat-value" id="paidOrders">0</div>
-                <div class="stat-label">Оплачено</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="waitingOrders">0</div>
-                <div class="stat-label">Ожидают</div>
-            </div>
-        </div>
 
-        <div class="orders-table">
-            <h2 style="margin-bottom: 20px;">📋 Все заказы</h2>
-            <table id="ordersTable">
-                <thead>
-                    <tr>
-                        <th>Ник</th>
-                        <th>Робуксы</th>
-                        <th>Код</th>
-                        <th>Время</th>
-                        <th>Статус</th>
-                        <th>Действия</th>
-                    </tr>
-                </thead>
-                <tbody id="ordersBody">
-                    <tr>
-                        <td colspan="6" style="text-align: center; opacity: 0.5; padding: 40px;">
-                            Загрузка...
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="stats-grid" id="stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalOrders">0</div>
+                    <div class="stat-label">Всего заказов</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="paidOrders">0</div>
+                    <div class="stat-label">Оплачено</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="waitingOrders">0</div>
+                    <div class="stat-label">Ожидают</div>
+                </div>
+            </div>
+
+            <div class="orders-table">
+                <h2 style="margin-bottom: 20px;">📋 Все заказы</h2>
+                <table id="ordersTable">
+                    <thead>
+                        <tr>
+                            <th>Ник</th>
+                            <th>Робуксы</th>
+                            <th>Код</th>
+                            <th>Время</th>
+                            <th>Статус</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersBody">
+                        <tr>
+                            <td colspan="6" style="text-align: center; opacity: 0.5; padding: 40px;">
+                                Загрузка...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
     <script>
+        // Пароль (можешь изменить)
+        const ADMIN_PASSWORD = 'admin123';
+        
+        // Проверка пароля
+        function checkPassword() {
+            const password = document.getElementById('adminPassword').value;
+            
+            if(password === ADMIN_PASSWORD) {
+                // Прячем форму входа
+                document.getElementById('loginForm').style.display = 'none';
+                // Показываем админку
+                document.getElementById('adminContent').style.display = 'block';
+                // Загружаем заказы
+                loadOrders();
+            } else {
+                document.getElementById('loginError').style.display = 'block';
+                document.getElementById('adminPassword').value = '';
+            }
+        }
+        
         let orders = [];
         let recentPurchases = JSON.parse(localStorage.getItem('recentPurchases') || '[]');
         
@@ -243,8 +336,21 @@
         
         function deleteOrder(id) {
             if(confirm('Удалить заказ навсегда?')) {
+                // Удаляем из заказов
                 orders = orders.filter(order => order.id !== id);
                 localStorage.setItem('orders', JSON.stringify(orders));
+                
+                // Удаляем из недавних покупок (если там есть этот заказ)
+                // Проще перезаписать recentPurchases правильными данными
+                const paidOrders = orders.filter(o => o.status === 'paid');
+                recentPurchases = paidOrders.slice(-10).map(o => ({
+                    nick: o.nick,
+                    amount: o.amount,
+                    time: o.time
+                }));
+                
+                localStorage.setItem('recentPurchases', JSON.stringify(recentPurchases));
+                
                 loadOrders();
             }
         }
@@ -294,8 +400,8 @@
             }).join('');
         }
         
-        loadOrders();
-        setInterval(loadOrders, 3000);
+        // Проверяем, может уже есть сессия (если заходили раньше)
+        // Но для простоты всегда показываем вход
     </script>
 </body>
 </html>
