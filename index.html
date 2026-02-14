@@ -2,140 +2,378 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>FelixBux</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FelixBux - Купить робуксы</title>
     <style>
-        * { margin:0; padding:0; box-sizing:border-box; font-family:Arial; }
-        body { background: linear-gradient(135deg, #001f3f, #0066cc); min-height:100vh; padding:20px; color:white; }
-        .container { max-width:600px; margin:0 auto; }
-        .header { background:rgba(255,255,255,0.1); padding:20px; border-radius:50px; display:flex; justify-content:space-between; margin-bottom:30px; }
-        .logo { font-size:28px; font-weight:bold; color:#66ccff; }
-        .admin-link { color:white; text-decoration:none; background:#66ccff; color:#001f3f; padding:10px 20px; border-radius:30px; }
-        .card { background:rgba(255,255,255,0.1); padding:40px; border-radius:40px; margin-bottom:30px; }
-        h1 { text-align:center; margin-bottom:10px; }
-        input { width:100%; padding:15px; margin-bottom:20px; background:rgba(255,255,255,0.05); border:2px solid rgba(255,255,255,0.1); border-radius:30px; color:white; }
-        .presets { display:flex; gap:10px; margin-bottom:20px; }
-        .preset { flex:1; padding:10px; background:rgba(255,255,255,0.1); border:none; border-radius:20px; color:white; cursor:pointer; }
-        .preset:hover { background:#66ccff; }
-        button { width:100%; padding:18px; background:linear-gradient(135deg,#0066cc,#66ccff); border:none; border-radius:40px; color:white; font-size:18px; font-weight:bold; cursor:pointer; }
-        .result { margin-top:30px; padding:30px; background:rgba(255,255,255,0.15); border-radius:30px; display:none; }
-        .code { background:linear-gradient(135deg,#0066cc,#66ccff); padding:20px; border-radius:20px; font-size:32px; text-align:center; letter-spacing:4px; margin:20px 0; }
-        .recent { background:rgba(255,255,255,0.1); padding:30px; border-radius:30px; }
-        .recent-item { display:flex; justify-content:space-between; padding:15px; background:rgba(255,255,255,0.05); border-radius:15px; margin-bottom:10px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a1a2f, #1a3b5c);
+            min-height: 100vh;
+            padding: 20px;
+            color: white;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* ШАПКА */
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            padding: 15px 30px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff, #66ccff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .admin-btn {
+            background: #66ccff;
+            color: #0a1a2f;
+            padding: 10px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .admin-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 204, 255, 0.4);
+        }
+
+        /* ГЛАВНАЯ КАРТОЧКА */
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 40px;
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 42px;
+            text-align: center;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #fff, #66ccff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            text-align: center;
+            opacity: 0.8;
+            margin-bottom: 30px;
+            font-size: 18px;
+        }
+
+        /* ФОРМА */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: #66ccff;
+            font-size: 16px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #66ccff;
+            box-shadow: 0 0 30px rgba(102, 204, 255, 0.3);
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* ПРЕСЕТЫ */
+        .presets {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .preset-btn {
+            flex: 1;
+            min-width: 70px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .preset-btn:hover {
+            background: #66ccff;
+            color: #0a1a2f;
+            transform: translateY(-2px);
+        }
+
+        /* КНОПКА ОТПРАВКИ */
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #0066cc, #66ccff);
+            border: none;
+            border-radius: 40px;
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(102, 204, 255, 0.4);
+        }
+
+        /* РЕЗУЛЬТАТ */
+        .result-card {
+            margin-top: 30px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 30px;
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .result-card.show {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .code-box {
+            background: linear-gradient(135deg, #0066cc, #66ccff);
+            padding: 25px;
+            border-radius: 20px;
+            font-size: 42px;
+            font-weight: 700;
+            text-align: center;
+            letter-spacing: 8px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            box-shadow: 0 10px 30px rgba(0, 102, 204, 0.5);
+        }
+
+        .copy-btn {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 30px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* НЕДАВНИЕ ПОКУПКИ */
+        .recent-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            padding: 30px;
+        }
+
+        .recent-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #66ccff;
+            font-weight: 600;
+        }
+
+        .recent-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .recent-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+
+        .recent-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .recent-nick {
+            color: #66ccff;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .recent-amount {
+            background: rgba(102, 204, 255, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .recent-status {
+            color: #00ff00;
+            font-size: 20px;
+        }
+
+        /* УВЕДОМЛЕНИЕ */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #0066cc, #66ccff);
+            padding: 15px 25px;
+            border-radius: 30px;
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s;
+            z-index: 1000;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* АДАПТАЦИЯ */
+        @media (max-width: 600px) {
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            h1 {
+                font-size: 32px;
+            }
+            
+            .card {
+                padding: 25px;
+            }
+            
+            .presets {
+                flex-wrap: wrap;
+            }
+            
+            .preset-btn {
+                min-width: 45px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <span class="logo">FelixBux</span>
-            <a href="admin.html" class="admin-link">Админка</a>
+            <div class="logo">FelixBux</div>
+            <a href="admin.html" class="admin-btn">Админ панель</a>
         </div>
 
         <div class="card">
             <h1>Купить робуксы</h1>
-            <p style="text-align:center; margin-bottom:30px;">20 - 5000 Robux</p>
+            <p class="subtitle">Мгновенная генерация кода (20 - 5000 Robux)</p>
 
-            <input type="text" id="nick" placeholder="Твой ник">
-            <input type="number" id="amount" placeholder="Количество">
-
-            <div class="presets">
-                <button class="preset" data-amount="100">100</button>
-                <button class="preset" data-amount="500">500</button>
-                <button class="preset" data-amount="1000">1k</button>
+            <div class="form-group">
+                <label>👤 Твой ник в Roblox</label>
+                <input type="text" id="username" placeholder="Введи никнейм">
             </div>
 
-            <button onclick="createOrder()">Сгенерировать код</button>
+            <div class="form-group">
+                <label>💰 Количество робуксов</label>
+                <input type="number" id="amount" placeholder="100" min="20" max="5000">
+                
+                <div class="presets">
+                    <button class="preset-btn" data-amount="20">20</button>
+                    <button class="preset-btn" data-amount="50">50</button>
+                    <button class="preset-btn" data-amount="100">100</button>
+                    <button class="preset-btn" data-amount="500">500</button>
+                    <button class="preset-btn" data-amount="1000">1k</button>
+                    <button class="preset-btn" data-amount="2500">2.5k</button>
+                    <button class="preset-btn" data-amount="5000">5k</button>
+                </div>
+            </div>
 
-            <div class="result" id="result">
-                <h3>Твой код:</h3>
-                <div class="code" id="code">N2F98D</div>
-                <button onclick="copyCode()" style="background:rgba(255,255,255,0.2); margin-top:10px;">Копировать</button>
+            <button class="submit-btn" id="submitBtn">Сгенерировать код</button>
+
+            <div class="result-card" id="result">
+                <h3 style="text-align: center; margin-bottom: 15px;">🎉 Твой код готов!</h3>
+                <div class="code-box" id="code">N2F98D</div>
+                <button class="copy-btn" id="copyBtn">📋 Копировать код</button>
             </div>
         </div>
 
-        <div class="recent">
-            <h3 style="margin-bottom:20px;">Недавние покупки</h3>
-            <div id="recentList"></div>
+        <div class="recent-card">
+            <div class="recent-header">
+                <span>🕒</span>
+                <span>Недавние покупки</span>
+            </div>
+            <div class="recent-list" id="recentList">
+                <div style="text-align: center; opacity: 0.5; padding: 20px;">Загрузка...</div>
+            </div>
         </div>
     </div>
 
-    <script>
-        const WEBHOOK = 'https://discord.com/api/webhooks/1471128466593288417/LGKIJtZe_dVEFMDeG6VPNWp-JxuCtYFJRKMmxaeqILqc2lz1qde8BwWWlGvPjZ4ciDh9';
-        
-        let recent = JSON.parse(localStorage.getItem('recent') || '[]');
-        
-        function generateCode() {
-            let code = '';
-            let letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            code += letters[Math.floor(Math.random() * 26)];
-            for(let i = 0; i < 5; i++) {
-                code += Math.floor(Math.random() * 10);
-            }
-            return code;
-        }
-        
-        function copyCode() {
-            let code = document.getElementById('code').textContent;
-            navigator.clipboard.writeText(code);
-            alert('Скопировано!');
-        }
-        
-        function showRecent() {
-            let list = document.getElementById('recentList');
-            if(recent.length === 0) {
-                list.innerHTML = '<p style="opacity:0.5;">Пока нет покупок</p>';
-                return;
-            }
-            list.innerHTML = recent.slice(-5).reverse().map(item => {
-                let nick = item.nick.length > 4 ? item.nick[0] + '...' + item.nick.slice(-2) : item.nick;
-                return `
-                    <div class="recent-item">
-                        <span>${nick}</span>
-                        <span>${item.amount} Robux</span>
-                        <span style="color:#00ff00;">✓</span>
-                    </div>
-                `;
-            }).join('');
-        }
-        
-        async function createOrder() {
-            let nick = document.getElementById('nick').value.trim();
-            let amount = document.getElementById('amount').value.trim();
-            
-            if(!nick || !amount) {
-                alert('Заполни все поля!');
-                return;
-            }
-            
-            let code = generateCode();
-            
-            // Отправка в Discord
-            await fetch(WEBHOOK, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    content: `**Новый заказ**\n👤 Ник: ${nick}\n💰 Робуксы: ${amount}\n🔑 Код: ${code}`
-                })
-            });
-            
-            // Сохраняем в локальное хранилище (только для демо)
-            recent.push({nick, amount});
-            if(recent.length > 10) recent = recent.slice(-10);
-            localStorage.setItem('recent', JSON.stringify(recent));
-            
-            document.getElementById('code').textContent = code;
-            document.getElementById('result').style.display = 'block';
-            document.getElementById('nick').value = '';
-            document.getElementById('amount').value = '';
-            showRecent();
-        }
-        
-        document.querySelectorAll('.preset').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.getElementById('amount').value = this.dataset.amount;
-            });
-        });
-        
-        showRecent();
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
