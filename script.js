@@ -1,16 +1,44 @@
-// JSONBin настройки
-const BIN_ID = '69906dbbd0ea881f40b9f95d';       // Например: 67b0f2e3ad19ca34f8def456
-const API_KEY = '$2a$10$JJhtXuIXTlix2FRrGUr.Ae5mE7zKF7aOkFDvY5IB2tKKFlRGyRAXK';     // Например: $2b$10$xyz123abc...
+// НАСТРОЙКИ - ВСТАВЬ СВОИ ДАННЫЕ!
+const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1471128466593288417/LGKIJtZe_dVEFMDeG6VPNWp-JxuCtYFJRKMmxaeqILqc2lz1qde8BwWWlGvPjZ4ciDh9';
+const BIN_ID = '69906dbbd0ea881f40b9f95d';
+const API_KEY = '$2a$10$JJhtXuIXTlix2FRrGUr.Ae5mE7zKF7aOkFDvY5IB2tKKFlRGyRAXK';
 
-// Загружаем заказы с JSONBin
+// Генерация кода
+function generateCode() {
+    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const numbers = '0123456789';
+    let code = letters[Math.floor(Math.random() * 26)];
+    for (let i = 0; i < 5; i++) {
+        code += i % 2 === 0 
+            ? numbers[Math.floor(Math.random() * 10)] 
+            : letters[Math.floor(Math.random() * 26)];
+    }
+    return code;
+}
+
+// Уведомление
+function showNotification(msg) {
+    const notif = document.createElement('div');
+    notif.className = 'notification';
+    notif.textContent = msg;
+    document.body.appendChild(notif);
+    setTimeout(() => notif.remove(), 3000);
+}
+
+// Копирование кода
+function copyCode() {
+    const code = document.getElementById('code').textContent;
+    navigator.clipboard.writeText(code);
+    showNotification('✅ Код скопирован!');
+}
+
+// Загрузка заказов с JSONBin
 async function loadOrders() {
     try {
-        const response = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
-            headers: {
-                'X-Master-Key': API_KEY
-            }
+        const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+            headers: { 'X-Master-Key': API_KEY }
         });
-        const data = await response.json();
+        const data = await res.json();
         return data.record.orders || [];
     } catch (e) {
         console.log('Ошибка загрузки', e);
@@ -18,7 +46,7 @@ async function loadOrders() {
     }
 }
 
-// Сохраняем заказы в JSONBin
+// Сохранение заказов в JSONBin
 async function saveOrders(orders) {
     try {
         await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
@@ -34,121 +62,103 @@ async function saveOrders(orders) {
     }
 }
 
-// Генерация кода
-function generateCode() {
-    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const numbers = '0123456789';
-    let code = letters[Math.floor(Math.random() * 26)];
-    for(let i = 0; i < 5; i++) {
-        code += i % 2 === 0 
-            ? numbers[Math.floor(Math.random() * 10)] 
-            : letters[Math.floor(Math.random() * 26)];
-    }
-    return code;
+// Отправка в Discord
+async function sendToDiscord(order) {
+    try {
+        await fetch(DISCORD_WEBHOOK, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                content: `**Новый заказ!**\n👤 Ник: ${order.nick}\n💰 Робуксы: ${order.amount}\n🔑 Код: ${order.code}\n🆔 ID: ${order.id}`
+            })
+        });
+    } catch (e) {}
 }
 
 // Показать недавние покупки
 async function showRecentPurchases() {
-    const list = document.getElementById('recentPurchases');
+    const list = document.getElementById('recentList');
     if (!list) return;
     
     const orders = await loadOrders();
-    const paidOrders = orders.filter(o => o.status === 'paid');
+    const paid = orders.filter(o => o.status === 'paid').slice(-5).reverse();
     
-    if (paidOrders.length === 0) {
-        list.innerHTML = '<div style="text-align:center;opacity:0.5;">Пока нет покупок</div>';
+    if (paid.length === 0) {
+        list.innerHTML = '<div style="text-align:center; opacity:0.5; padding:20px;">Пока нет покупок</div>';
         return;
     }
     
-    list.innerHTML = paidOrders.slice(-5).reverse().map(o => {
+    list.innerHTML = paid.map(o => {
         const hidden = o.nick.length > 4 
             ? o.nick[0] + '...' + o.nick.slice(-2) 
             : o.nick[0] + '...' + o.nick.slice(-1);
         return `
-            <div style="display:flex;justify-content:space-between;padding:10px;background:rgba(255,255,255,0.05);border-radius:10px;margin-bottom:5px;">
-                <span style="color:#66ccff;">${hidden}</span>
-                <span>${o.amount} Robux</span>
-                <span style="color:#00ff00;">✓</span>
+            <div class="purchase-item">
+                <span class="purchase-nick">${hidden}</span>
+                <span class="purchase-amount">${o.amount} Robux</span>
+                <span class="purchase-status">✓</span>
             </div>
         `;
     }).join('');
 }
 
-// Обработка формы
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('orderForm');
-    if (!form) return;
+// Создание заказа
+async function createOrder() {
+    const username = document.getElementById('username').value.trim();
+    const amount = document.getElementById('amount').value.trim();
     
-    const result = document.getElementById('result');
-    const codeDisplay = document.getElementById('codeDisplay');
-    const username = document.getElementById('username');
-    const amount = document.getElementById('amount');
+    if (!username || !amount) {
+        showNotification('❌ Заполни все поля!');
+        return;
+    }
     
-    // Показать покупки при загрузке
-    showRecentPurchases();
+    if (amount < 20 || amount > 5000) {
+        showNotification('❌ От 20 до 5000 Robux');
+        return;
+    }
     
-    // Пресеты
-    document.querySelectorAll('.preset-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            amount.value = this.dataset.amount;
-        });
-    });
+    const code = generateCode();
+    const order = {
+        id: Date.now(),
+        nick: username,
+        amount: amount,
+        code: code,
+        time: new Date().toLocaleString(),
+        status: 'waiting'
+    };
     
-    // Отправка формы
-    form.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        const user = username.value.trim();
-        const robux = amount.value.trim();
-        
-        if (!user || !robux) {
-            alert('Заполни все поля!');
-            return;
-        }
-        
-        if (robux < 20 || robux > 5000) {
-            alert('От 20 до 5000 Robux');
-            return;
-        }
-        
-        const code = generateCode();
-        const order = {
-            id: Date.now(),
-            nick: user,
-            amount: robux,
-            code: code,
-            time: new Date().toLocaleString(),
-            status: 'waiting'
-        };
-        
-        // Загружаем текущие заказы
-        let orders = await loadOrders();
-        
-        // Добавляем новый
-        orders.push(order);
-        
-        // Сохраняем в общее хранилище
-        await saveOrders(orders);
-        
-        // Показываем код
-        codeDisplay.textContent = code;
-        result.style.display = 'block';
-        
-        // Очищаем поля
-        username.value = '';
-        amount.value = '';
-        
-        // Обновляем список покупок
-        showRecentPurchases();
+    // Загружаем заказы
+    let orders = await loadOrders();
+    
+    // Добавляем новый
+    orders.push(order);
+    
+    // Сохраняем
+    await saveOrders(orders);
+    
+    // Отправляем в Discord
+    await sendToDiscord(order);
+    
+    // Показываем код
+    document.getElementById('code').textContent = code;
+    document.getElementById('result').classList.add('show');
+    
+    // Очищаем поля
+    document.getElementById('username').value = '';
+    document.getElementById('amount').value = '';
+    
+    showNotification('✅ Код сгенерирован!');
+}
+
+// Пресеты
+document.querySelectorAll('.preset-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.getElementById('amount').value = this.dataset.amount;
     });
 });
 
-// Копирование кода
-function copyCode() {
-    const code = document.getElementById('codeDisplay').textContent;
-    navigator.clipboard.writeText(code);
-    alert('Код скопирован!');
-}
+// Загрузка при старте
+showRecentPurchases();
 
 // Обновление каждые 5 секунд
 setInterval(showRecentPurchases, 5000);
