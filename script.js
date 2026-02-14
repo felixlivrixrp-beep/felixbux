@@ -1,7 +1,25 @@
-// НАСТРОЙКИ - ВСТАВЬ СВОИ ДАННЫЕ!
-const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1471128466593288417/LGKIJtZe_dVEFMDeG6VPNWp-JxuCtYFJRKMmxaeqILqc2lz1qde8BwWWlGvPjZ4ciDh9';
-const BIN_ID = '69906dbbd0ea881f40b9f95d';
-const API_KEY = '$2a$10$JJhtXuIXTlix2FRrGUr.Ae5mE7zKF7aOkFDvY5IB2tKKFlRGyRAXK';
+// Webhook Discord
+const WEBHOOK_URL = 'https://discord.com/api/webhooks/1471128466593288417/LGKIJtZe_dVEFMDeG6VPNWp-JxuCtYFJRKMmxaeqILqc2lz1qde8BwWWlGvPjZ4ciDh9';
+
+// Глобальное хранилище (Firebase)
+const FIREBASE_CONFIG = {
+    apiKey: "AIzaSyBrZ7R9KjKjKjKjKjKjKjKjKjKjKjKjKjK",
+    authDomain: "felixbux.firebaseapp.com",
+    databaseURL: "https://felixbux-default-rtdb.firebaseio.com",
+    projectId: "felixbux",
+    storageBucket: "felixbux.appspot.com",
+    messagingSenderId: "123456789012"
+};
+
+// Инициализация Firebase
+let database;
+try {
+    firebase.initializeApp(FIREBASE_CONFIG);
+    database = firebase.database();
+    console.log('Firebase подключен');
+} catch (e) {
+    console.log('Firebase ошибка, используем localStorage');
+}
 
 // Генерация кода
 function generateCode() {
@@ -17,10 +35,10 @@ function generateCode() {
 }
 
 // Уведомление
-function showNotification(msg) {
+function showNotification(message) {
     const notif = document.createElement('div');
     notif.className = 'notification';
-    notif.textContent = msg;
+    notif.textContent = message;
     document.body.appendChild(notif);
     setTimeout(() => notif.remove(), 3000);
 }
@@ -32,47 +50,46 @@ function copyCode() {
     showNotification('✅ Код скопирован!');
 }
 
-// Загрузка заказов с JSONBin
-async function loadOrders() {
-    try {
-        const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
-            headers: { 'X-Master-Key': API_KEY }
-        });
-        const data = await res.json();
-        return data.record.orders || [];
-    } catch (e) {
-        console.log('Ошибка загрузки', e);
-        return [];
+// Сохранение заказа
+async function saveOrder(order) {
+    if (database) {
+        // Firebase
+        const newOrderRef = database.ref('orders').push();
+        await newOrderRef.set(order);
+        return newOrderRef.key;
+    } else {
+        // localStorage
+        let orders = JSON.parse(localStorage.getItem('orders') || '[]');
+        orders.push(order);
+        localStorage.setItem('orders', JSON.stringify(orders));
+        return order.id;
     }
 }
 
-// Сохранение заказов в JSONBin
-async function saveOrders(orders) {
-    try {
-        await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Master-Key': API_KEY
-            },
-            body: JSON.stringify({ orders: orders })
-        });
-    } catch (e) {
-        console.log('Ошибка сохранения', e);
+// Загрузка заказов
+async function loadOrders() {
+    if (database) {
+        const snapshot = await database.ref('orders').once('value');
+        const data = snapshot.val();
+        return data ? Object.values(data) : [];
+    } else {
+        return JSON.parse(localStorage.getItem('orders') || '[]');
     }
 }
 
 // Отправка в Discord
 async function sendToDiscord(order) {
     try {
-        await fetch(DISCORD_WEBHOOK, {
+        await fetch(WEBHOOK_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                content: `**Новый заказ!**\n👤 Ник: ${order.nick}\n💰 Робуксы: ${order.amount}\n🔑 Код: ${order.code}\n🆔 ID: ${order.id}`
+                content: `**🔔 НОВЫЙ ЗАКАЗ**\n👤 Ник: ${order.nick}\n💰 Робуксы: ${order.amount}\n🔑 Код: ${order.code}\n🆔 ID: ${order.id}`
             })
         });
-    } catch (e) {}
+    } catch (e) {
+        console.log('Discord error:', e);
+    }
 }
 
 // Показать недавние покупки
@@ -81,22 +98,23 @@ async function showRecentPurchases() {
     if (!list) return;
     
     const orders = await loadOrders();
-    const paid = orders.filter(o => o.status === 'paid').slice(-5).reverse();
+    const paidOrders = orders.filter(o => o.status === 'paid').slice(-5).reverse();
     
-    if (paid.length === 0) {
+    if (paidOrders.length === 0) {
         list.innerHTML = '<div style="text-align:center; opacity:0.5; padding:20px;">Пока нет покупок</div>';
         return;
     }
     
-    list.innerHTML = paid.map(o => {
-        const hidden = o.nick.length > 4 
+    list.innerHTML = paidOrders.map(o => {
+        const hiddenNick = o.nick.length > 4 
             ? o.nick[0] + '...' + o.nick.slice(-2) 
             : o.nick[0] + '...' + o.nick.slice(-1);
+        
         return `
-            <div class="purchase-item">
-                <span class="purchase-nick">${hidden}</span>
-                <span class="purchase-amount">${o.amount} Robux</span>
-                <span class="purchase-status">✓</span>
+            <div class="recent-item">
+                <span class="recent-nick">${hiddenNick}</span>
+                <span class="recent-amount">${o.amount} Robux</span>
+                <span class="recent-status">✓</span>
             </div>
         `;
     }).join('');
@@ -113,7 +131,7 @@ async function createOrder() {
     }
     
     if (amount < 20 || amount > 5000) {
-        showNotification('❌ От 20 до 5000 Robux');
+        showNotification('❌ Количество от 20 до 5000');
         return;
     }
     
@@ -127,19 +145,13 @@ async function createOrder() {
         status: 'waiting'
     };
     
-    // Загружаем заказы
-    let orders = await loadOrders();
-    
-    // Добавляем новый
-    orders.push(order);
-    
     // Сохраняем
-    await saveOrders(orders);
+    await saveOrder(order);
     
     // Отправляем в Discord
     await sendToDiscord(order);
     
-    // Показываем код
+    // Показываем результат
     document.getElementById('code').textContent = code;
     document.getElementById('result').classList.add('show');
     
@@ -148,17 +160,29 @@ async function createOrder() {
     document.getElementById('amount').value = '';
     
     showNotification('✅ Код сгенерирован!');
+    
+    // Обновляем список
+    showRecentPurchases();
 }
 
-// Пресеты
-document.querySelectorAll('.preset-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-        document.getElementById('amount').value = this.dataset.amount;
+// Инициализация
+document.addEventListener('DOMContentLoaded', function() {
+    // Кнопка отправки
+    document.getElementById('submitBtn').addEventListener('click', createOrder);
+    
+    // Кнопка копирования
+    document.getElementById('copyBtn').addEventListener('click', copyCode);
+    
+    // Пресеты
+    document.querySelectorAll('.preset-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.getElementById('amount').value = this.dataset.amount;
+        });
     });
+    
+    // Загружаем покупки
+    showRecentPurchases();
+    
+    // Обновляем каждые 3 секунды
+    setInterval(showRecentPurchases, 3000);
 });
-
-// Загрузка при старте
-showRecentPurchases();
-
-// Обновление каждые 5 секунд
-setInterval(showRecentPurchases, 5000);
