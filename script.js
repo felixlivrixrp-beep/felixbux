@@ -1,86 +1,89 @@
-// Webhook Discord
-const WEBHOOK_URL = 'https://discord.com/api/webhooks/1471128466593288417/LGKIJtZe_dVEFMDeG6VPNWp-JxuCtYFJRKMmxaeqILqc2lz1qde8BwWWlGvPjZ4ciDh9';
+// Telegram Bot токен и chat ID (твой)
+const TELEGRAM_TOKEN = 'ТОКЕН_БОТА';
+const TELEGRAM_CHAT_ID = 'ТВОЙ_ID';
 
-let orders = JSON.parse(localStorage.getItem('orders') || '[]');
+// Загружаем недавние покупки
 let recentPurchases = JSON.parse(localStorage.getItem('recentPurchases') || '[]');
 
 function generateCode() {
     const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const numbers = '0123456789';
     let code = letters[Math.floor(Math.random() * 26)];
-    
     for(let i = 0; i < 5; i++) {
-        if(i % 2 === 0) {
-            code += numbers[Math.floor(Math.random() * 10)];
-        } else {
-            code += letters[Math.floor(Math.random() * 26)];
-        }
+        code += i % 2 === 0 ? numbers[Math.floor(Math.random() * 10)] : letters[Math.floor(Math.random() * 26)];
     }
     return code;
-}
-
-function showNotification(message) {
-    const notif = document.createElement('div');
-    notif.className = 'notification';
-    notif.textContent = message;
-    document.body.appendChild(notif);
-    setTimeout(() => notif.remove(), 3000);
 }
 
 function copyCode() {
     const code = document.getElementById('codeDisplay').textContent;
     navigator.clipboard.writeText(code);
-    showNotification('Код скопирован!');
+    alert('Код скопирован!');
 }
 
 function showRecentPurchases() {
     const list = document.getElementById('recentPurchases');
-    if(!list) return;
+    if (!list) return;
     
-    if(recentPurchases.length === 0) {
-        list.innerHTML = '<div style="text-align: center; opacity: 0.5; padding: 20px;">Пока нет покупок</div>';
+    if (recentPurchases.length === 0) {
+        list.innerHTML = '<div style="text-align:center;opacity:0.5;">Пока нет покупок</div>';
         return;
     }
     
     list.innerHTML = recentPurchases.slice(-5).reverse().map(p => {
-        const nick = p.nick;
-        const hidden = nick.length > 4 ? nick[0] + '...' + nick.slice(-2) : nick[0] + '...' + nick.slice(-1);
-        
+        const hidden = p.nick.length > 4 ? p.nick[0] + '...' + p.nick.slice(-2) : p.nick[0] + '...' + p.nick.slice(-1);
         return `
             <div class="purchase-item">
-                <div class="purchase-info">
-                    <span class="purchase-nick">${hidden}</span>
-                    <span class="purchase-amount">${p.amount} Robux</span>
-                </div>
-                <div>
-                    <span class="purchase-time">${p.time}</span>
-                    <span class="purchase-status">✓</span>
-                </div>
+                <span>${hidden}</span>
+                <span>${p.amount} Robux</span>
+                <span style="color:#00ff00;">✓</span>
             </div>
         `;
     }).join('');
 }
 
-async function sendToDiscord(data) {
+// Отправка в Telegram
+async function sendToTelegram(order) {
+    const text = `
+🔔 **Новый заказ!**
+👤 Ник: ${order.nick}
+💰 Робуксы: ${order.amount}
+🔑 Код: ${order.code}
+🆔 ID: ${order.id}
+    `;
+    
+    const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
+    
     try {
-        await fetch(WEBHOOK_URL, {
+        await fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                content: `**Новый заказ!**\n👤 **Ник:** ${data.username}\n💰 **Робуксы:** ${data.amount}\n🔑 **Код:** ${data.code}`
+                chat_id: TELEGRAM_CHAT_ID,
+                text: text,
+                parse_mode: 'Markdown',
+                reply_markup: {
+                    inline_keyboard: [
+                        [
+                            { text: '✅ Оплачено', callback_data: `pay_${order.id}` },
+                            { text: '❌ Отменить', callback_data: `cancel_${order.id}` }
+                        ]
+                    ]
+                }
             })
         });
-    } catch (e) {}
+    } catch (e) {
+        console.log('Ошибка отправки в Telegram', e);
+    }
 }
 
+// Обработка формы
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('orderForm');
-    if(!form) return;
+    if (!form) return;
     
-    const submitBtn = document.getElementById('submitBtn');
     const result = document.getElementById('result');
     const codeDisplay = document.getElementById('codeDisplay');
-    const messageCode = document.getElementById('messageCode');
     const username = document.getElementById('username');
     const amount = document.getElementById('amount');
     
@@ -92,31 +95,23 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    username.addEventListener('input', function() {
-        this.value = this.value.replace(/[^a-zA-Z0-9_]/g, '');
-    });
-    
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
         
         const user = username.value.trim();
         const robux = amount.value.trim();
         
-        if(!user || !robux) {
-            showNotification('Заполните все поля!');
+        if (!user || !robux) {
+            alert('Заполни все поля!');
             return;
         }
         
-        if(robux < 20 || robux > 5000) {
-            showNotification('Количество робуксов от 20 до 5000');
+        if (robux < 20 || robux > 5000) {
+            alert('От 20 до 5000 Robux');
             return;
         }
-        
-        submitBtn.classList.add('loading');
-        submitBtn.disabled = true;
         
         const code = generateCode();
-        
         const order = {
             id: Date.now(),
             nick: user,
@@ -126,24 +121,20 @@ document.addEventListener('DOMContentLoaded', function() {
             status: 'waiting'
         };
         
-        orders.push(order);
-        localStorage.setItem('orders', JSON.stringify(orders));
+        // Отправляем в Telegram
+        await sendToTelegram(order);
         
-        await sendToDiscord({ username: user, amount: robux, code: code });
-        
+        // Показываем код
         codeDisplay.textContent = code;
-        messageCode.textContent = code;
-        result.classList.remove('hidden');
+        result.style.display = 'block';
         
-        submitBtn.classList.remove('loading');
-        submitBtn.disabled = false;
-        
+        // Очищаем поля
         username.value = '';
         amount.value = '';
-        result.scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
 });
 
+// Обновление недавних покупок
 setInterval(() => {
     recentPurchases = JSON.parse(localStorage.getItem('recentPurchases') || '[]');
     showRecentPurchases();
