@@ -3,377 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FelixBux - Купить робуксы</title>
+    <title>FelixBux - Технические работы</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-        }
-
-        body {
-            background: linear-gradient(135deg, #0a1a2f, #1a3b5c);
-            min-height: 100vh;
-            padding: 20px;
-            color: white;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        /* ШАПКА */
-        .header {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 50px;
-            padding: 15px 30px;
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 28px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #fff, #66ccff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .admin-btn {
-            background: #66ccff;
-            color: #0a1a2f;
-            padding: 10px 25px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .admin-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 204, 255, 0.4);
-        }
-
-        /* ГЛАВНАЯ КАРТОЧКА */
-        .card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 40px;
-            padding: 40px;
-            margin-bottom: 30px;
-        }
-
-        h1 {
-            font-size: 42px;
-            text-align: center;
-            margin-bottom: 10px;
-            background: linear-gradient(135deg, #fff, #66ccff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .subtitle {
-            text-align: center;
-            opacity: 0.8;
-            margin-bottom: 30px;
-            font-size: 18px;
-        }
-
-        /* ФОРМА */
-        .form-group {
-            margin-bottom: 25px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: 500;
-            color: #66ccff;
-            font-size: 16px;
-        }
-
-        input {
-            width: 100%;
-            padding: 15px 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 30px;
-            color: white;
-            font-size: 16px;
-            transition: all 0.3s;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #66ccff;
-            box-shadow: 0 0 30px rgba(102, 204, 255, 0.3);
-        }
-
-        input::placeholder {
-            color: rgba(255, 255, 255, 0.3);
-        }
-
-        /* ПРЕСЕТЫ */
-        .presets {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-            flex-wrap: wrap;
-        }
-
-        .preset-btn {
-            flex: 1;
-            min-width: 70px;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 30px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 14px;
-        }
-
-        .preset-btn:hover {
-            background: #66ccff;
-            color: #0a1a2f;
-            transform: translateY(-2px);
-        }
-
-        /* КНОПКА ОТПРАВКИ */
-        .submit-btn {
-            width: 100%;
-            padding: 18px;
-            background: linear-gradient(135deg, #0066cc, #66ccff);
-            border: none;
-            border-radius: 40px;
-            color: white;
-            font-size: 18px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 20px;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 30px rgba(102, 204, 255, 0.4);
-        }
-
-        /* РЕЗУЛЬТАТ */
-        .result-card {
-            margin-top: 30px;
-            padding: 30px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 30px;
-            display: none;
-            animation: fadeIn 0.5s;
-        }
-
-        .result-card.show {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .code-box {
-            background: linear-gradient(135deg, #0066cc, #66ccff);
-            padding: 25px;
-            border-radius: 20px;
-            font-size: 42px;
-            font-weight: 700;
-            text-align: center;
-            letter-spacing: 8px;
-            margin: 20px 0;
-            font-family: 'Courier New', monospace;
-            box-shadow: 0 10px 30px rgba(0, 102, 204, 0.5);
-        }
-
-        .copy-btn {
-            width: 100%;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 30px;
-            color: white;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .copy-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        /* НЕДАВНИЕ ПОКУПКИ */
-        .recent-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 30px;
-            padding: 30px;
-        }
-
-        .recent-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            font-size: 24px;
-            color: #66ccff;
-            font-weight: 600;
-        }
-
-        .recent-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .recent-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s;
-        }
-
-        .recent-item:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateX(5px);
-        }
-
-        .recent-nick {
-            color: #66ccff;
-            font-weight: 600;
-            font-size: 16px;
-        }
-
-        .recent-amount {
-            background: rgba(102, 204, 255, 0.2);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .recent-status {
-            color: #00ff00;
-            font-size: 20px;
-        }
-
-        /* УВЕДОМЛЕНИЕ */
-        .notification {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, #0066cc, #66ccff);
-            padding: 15px 25px;
-            border-radius: 30px;
-            color: white;
-            font-weight: 600;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            animation: slideIn 0.3s;
-            z-index: 1000;
-        }
-
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        /* АДАПТАЦИЯ */
-        @media (max-width: 600px) {
-            .header {
-                flex-direction: column;
-                gap: 15px;
-                text-align: center;
-            }
-            
-            h1 {
-                font-size: 32px;
-            }
-            
-            .card {
-                padding: 25px;
-            }
-            
-            .presets {
-                flex-wrap: wrap;
-            }
-            
-            .preset-btn {
-                min-width: 45px;
-            }
-        }
+        /* Весь дизайн из tech.html */
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
+        body { background:linear-gradient(135deg,#0a1a2f,#1a3b5c); min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px; color:white; }
+        .container { max-width:600px; width:100%; }
+        .tech-card { background:rgba(255,255,255,0.1); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.2); border-radius:50px; padding:60px 40px; text-align:center; animation:fadeIn 0.8s ease; }
+        @keyframes fadeIn { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
+        .gradient-bg { position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1; overflow:hidden; }
+        .sphere { position:absolute; width:600px; height:600px; background:radial-gradient(circle,rgba(0,153,255,0.3),rgba(0,102,204,0.1)); border-radius:50%; filter:blur(60px); animation:float 20s infinite; }
+        .sphere:nth-child(1) { top:-200px; left:-200px; }
+        .sphere:nth-child(2) { bottom:-200px; right:-200px; width:800px; height:800px; animation-delay:-5s; }
+        .sphere:nth-child(3) { top:50%; left:50%; transform:translate(-50%,-50%); width:1000px; height:1000px; animation:pulse 15s infinite; }
+        @keyframes float { 0%,100%{transform:translate(0,0)scale(1);} 33%{transform:translate(30px,-30px)scale(1.1);} 66%{transform:translate(-20px,20px)scale(0.9);} }
+        @keyframes pulse { 0%,100%{opacity:0.5;transform:translate(-50%,-50%)scale(1);} 50%{opacity:0.8;transform:translate(-50%,-50%)scale(1.2);} }
+        .icon-wrapper { width:120px; height:120px; margin:0 auto 30px; background:linear-gradient(135deg,#0066cc,#66ccff); border-radius:50%; display:flex; align-items:center; justify-content:center; animation:pulseIcon 2s infinite; }
+        @keyframes pulseIcon { 0%,100%{transform:scale(1);box-shadow:0 0 30px rgba(102,204,255,0.5);} 50%{transform:scale(1.1);box-shadow:0 0 50px rgba(102,204,255,0.8);} }
+        .icon { font-size:64px; }
+        h1 { font-size:48px; font-weight:700; margin-bottom:20px; background:linear-gradient(135deg,#fff,#66ccff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; animation:gradient 3s ease infinite; background-size:200%200%; }
+        @keyframes gradient { 0%,100%{background-position:0%50%;} 50%{background-position:100%50%;} }
+        .subtitle { font-size:20px; opacity:0.9; margin-bottom:30px; }
+        .progress-container { width:100%; height:10px; background:rgba(255,255,255,0.1); border-radius:10px; margin:40px 0; overflow:hidden; }
+        .progress-bar { height:100%; width:0%; background:linear-gradient(90deg,#0066cc,#66ccff); border-radius:10px; animation:progress 3s ease-in-out infinite; }
+        @keyframes progress { 0%{width:0%;} 50%{width:70%;} 100%{width:0%;} }
+        .status { display:inline-block; padding:8px 20px; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); border-radius:30px; font-size:14px; margin-bottom:30px; }
+        .status-dot { display:inline-block; width:8px; height:8px; background:#66ccff; border-radius:50%; margin-right:8px; animation:blink 1.5s infinite; }
+        @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+        .counter { font-size:32px; font-weight:700; color:#66ccff; margin:20px 0; }
+        .refresh-btn { background:none; border:2px solid #66ccff; color:#66ccff; padding:12px 30px; border-radius:30px; font-size:16px; font-weight:600; cursor:pointer; transition:0.3s; margin-top:30px; }
+        .refresh-btn:hover { background:#66ccff; color:#0a1a2f; transform:translateY(-2px); box-shadow:0 10px 25px rgba(102,204,255,0.4); }
+        @media (max-width:600px) { h1{font-size:32px;} .subtitle{font-size:16px;} .icon-wrapper{width:80px;height:80px;} .icon{font-size:40px;} }
     </style>
 </head>
 <body>
+    <div class="gradient-bg">
+        <div class="sphere"></div>
+        <div class="sphere"></div>
+        <div class="sphere"></div>
+    </div>
+
     <div class="container">
-        <div class="header">
-            <div class="logo">FelixBux</div>
-            <a href="admin.html" class="admin-btn">Админ панель</a>
-        </div>
-
-        <div class="card">
-            <h1>Купить робуксы</h1>
-            <p class="subtitle">Мгновенная генерация кода (20 - 5000 Robux)</p>
-
-            <div class="form-group">
-                <label>👤 Твой ник в Roblox</label>
-                <input type="text" id="username" placeholder="Введи никнейм">
+        <div class="tech-card">
+            <div class="icon-wrapper">
+                <span class="icon">🔧</span>
             </div>
 
-            <div class="form-group">
-                <label>💰 Количество робуксов</label>
-                <input type="number" id="amount" placeholder="100" min="20" max="5000">
-                
-                <div class="presets">
-                    <button class="preset-btn" data-amount="20">20</button>
-                    <button class="preset-btn" data-amount="50">50</button>
-                    <button class="preset-btn" data-amount="100">100</button>
-                    <button class="preset-btn" data-amount="500">500</button>
-                    <button class="preset-btn" data-amount="1000">1k</button>
-                    <button class="preset-btn" data-amount="2500">2.5k</button>
-                    <button class="preset-btn" data-amount="5000">5k</button>
-                </div>
+            <div class="status">
+                <span class="status-dot"></span>
+                Технические работы
             </div>
 
-            <button class="submit-btn" id="submitBtn">Сгенерировать код</button>
+            <h1>Скоро вернёмся</h1>
+            
+            <p class="subtitle">
+                Ведутся технические работы по улучшению сервиса
+            </p>
 
-            <div class="result-card" id="result">
-                <h3 style="text-align: center; margin-bottom: 15px;">🎉 Твой код готов!</h3>
-                <div class="code-box" id="code">N2F98D</div>
-                <button class="copy-btn" id="copyBtn">📋 Копировать код</button>
+            <div class="progress-container">
+                <div class="progress-bar"></div>
             </div>
-        </div>
 
-        <div class="recent-card">
-            <div class="recent-header">
-                <span>🕒</span>
-                <span>Недавние покупки</span>
-            </div>
-            <div class="recent-list" id="recentList">
-                <div style="text-align: center; opacity: 0.5; padding: 20px;">Загрузка...</div>
-            </div>
+            <div class="counter" id="counter">0</div>
+
+            <button class="refresh-btn" onclick="checkStatus()">
+                🔄 Проверить статус
+            </button>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        let counter = 0;
+        setInterval(() => {
+            counter++;
+            document.getElementById('counter').textContent = counter;
+        }, 1000);
+
+        function checkStatus() {
+            alert('🔍 Проверяем статус...\n⏳ Работы ещё ведутся');
+        }
+
+        // Блокировка F5
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F5' || (e.ctrlKey && e.key === 'r')) {
+                e.preventDefault();
+                checkStatus();
+            }
+        });
+    </script>
 </body>
 </html>
