@@ -2,81 +2,49 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FelixBux - Админ панель</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background: linear-gradient(135deg, #001f3f, #0066cc); min-height: 100vh; padding: 20px; color: white; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial; }
+        body { background: linear-gradient(135deg, #0a1a2f, #1a3b5c); min-height: 100vh; padding: 20px; color: white; }
         .container { max-width: 1200px; margin: 0 auto; }
-        
-        /* Шапка */
-        .header { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); border-radius: 50px; padding: 15px 25px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 24px; font-weight: 700; color: #66ccff; }
-        .badge { background: linear-gradient(135deg, #0066cc, #66ccff); padding: 4px 8px; border-radius: 20px; font-size: 12px; }
-        .main-btn { background: #66ccff; color: #001f3f; padding: 8px 20px; border-radius: 30px; text-decoration: none; font-weight: 500; }
-        
-        /* Форма входа */
-        .login-box { max-width: 400px; margin: 100px auto; background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); border-radius: 40px; padding: 40px; text-align: center; }
-        .login-title { font-size: 28px; color: #66ccff; margin-bottom: 30px; }
-        .login-input { width: 100%; padding: 15px; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 30px; color: white; font-size: 16px; margin-bottom: 20px; }
-        .login-input:focus { outline: none; border-color: #66ccff; }
-        .login-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #0066cc, #66ccff); border: none; border-radius: 30px; color: white; font-size: 18px; font-weight: 600; cursor: pointer; }
-        .error { color: #ff4444; margin-top: 15px; display: none; }
-        
-        /* Админ панель */
+        .header { background: rgba(255,255,255,0.1); padding: 20px; border-radius: 50px; display: flex; justify-content: space-between; margin-bottom: 30px; }
+        .logo { font-size: 24px; color: #66ccff; font-weight: bold; }
+        .login-box { max-width: 400px; margin: 100px auto; background: rgba(255,255,255,0.1); padding: 40px; border-radius: 40px; }
+        .login-box input { width: 100%; padding: 15px; margin-bottom: 15px; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 30px; color: white; }
+        .login-box button { width: 100%; padding: 15px; background: linear-gradient(135deg, #0066cc, #66ccff); border: none; border-radius: 30px; color: white; font-size: 18px; cursor: pointer; }
         .admin-panel { display: none; }
-        .admin-message { background: linear-gradient(135deg, #0066cc, #66ccff); border-radius: 30px; padding: 20px; margin-bottom: 30px; display: flex; align-items: center; gap: 20px; }
-        .admin-avatar { width: 60px; height: 60px; border-radius: 50%; border: 3px solid white; }
-        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
-        .stat-card { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); border-radius: 30px; padding: 25px; text-align: center; }
-        .stat-value { font-size: 42px; font-weight: 700; color: #66ccff; margin-bottom: 5px; }
-        .orders-table { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); border-radius: 40px; padding: 30px; overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; color: white; }
-        th { text-align: left; padding: 15px; color: #66ccff; border-bottom: 2px solid rgba(255,255,255,0.1); }
-        td { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .status { padding: 5px 12px; border-radius: 20px; font-size: 12px; display: inline-block; }
-        .status-waiting { background: rgba(255,165,0,0.2); color: orange; }
-        .status-paid { background: rgba(0,255,0,0.2); color: #00ff00; }
-        .status-cancelled { background: rgba(255,0,0,0.2); color: #ff4444; }
-        .action-btn { padding: 8px 15px; border: none; border-radius: 20px; cursor: pointer; font-size: 12px; margin-right: 5px; }
+        .stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: rgba(255,255,255,0.1); padding: 25px; border-radius: 30px; text-align: center; }
+        .stat-value { font-size: 42px; color: #66ccff; }
+        .orders-table { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 40px; }
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 15px; color: #66ccff; }
+        td { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .status-waiting { background: rgba(255,165,0,0.2); color: orange; padding: 5px 12px; border-radius: 20px; }
+        .status-paid { background: rgba(0,255,0,0.2); color: #00ff00; padding: 5px 12px; border-radius: 20px; }
+        .action-btn { padding: 8px 15px; border: none; border-radius: 20px; cursor: pointer; margin: 0 5px; }
         .pay-btn { background: #00ff00; color: #001f3f; }
-        .cancel-btn { background: #ff4444; color: white; }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Шапка -->
         <div class="header">
-            <div class="logo">FelixBux Admin <span class="badge">PRO</span></div>
-            <a href="index.html" class="main-btn">← На главную</a>
+            <div class="logo">FelixBux Admin</div>
+            <a href="index.html" style="color: white;">← На главную</a>
         </div>
 
-        <!-- Форма входа -->
         <div id="loginForm" class="login-box">
-            <h2 class="login-title">🔐 Вход в админ-панель</h2>
-            <input type="text" id="loginUsername" class="login-input" placeholder="Логин">
-            <input type="password" id="loginPassword" class="login-input" placeholder="Пароль">
-            <button class="login-btn" onclick="login()">Войти</button>
-            <div class="error" id="loginError">Неверный логин или пароль!</div>
+            <h2 style="text-align:center; margin-bottom:30px;">🔐 Вход</h2>
+            <input type="text" id="loginUser" placeholder="Логин">
+            <input type="password" id="loginPass" placeholder="Пароль">
+            <button onclick="login()">Войти</button>
         </div>
 
-        <!-- Админ панель -->
         <div id="adminPanel" class="admin-panel">
-            <!-- Сообщение от админа -->
-            <div class="admin-message">
-                <img src="https://tr.rbxcdn.com/30DAY-AvatarHeadshot-1F5C01B1F1AB60651132AD3AC60F41EA-Png/150/150/AvatarHeadshot/Webp/noFilter" class="admin-avatar" onerror="this.src='https://i.imgur.com/7k12qDc.png'">
-                <div>
-                    <h3>👑 FelixBux Admin</h3>
-                    <p>Привет! Ты в админ-панели. Здесь все заказы.</p>
-                </div>
-            </div>
-
-            <!-- Статистика -->
-            <div class="stats-grid">
+            <div class="stats">
                 <div class="stat-card">
                     <div class="stat-value" id="totalOrders">0</div>
-                    <div>Всего заказов</div>
+                    <div>Всего</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-value" id="paidOrders">0</div>
@@ -88,10 +56,9 @@
                 </div>
             </div>
 
-            <!-- Таблица заказов -->
             <div class="orders-table">
-                <h2 style="margin-bottom: 20px;">📋 Все заказы</h2>
-                <table>
+                <h2 style="margin-bottom:20px;">📋 Заказы</h2>
+                <table id="ordersTable">
                     <thead>
                         <tr>
                             <th>Ник</th>
@@ -99,50 +66,49 @@
                             <th>Код</th>
                             <th>Время</th>
                             <th>Статус</th>
-                            <th>Действия</th>
+                            <th>Действие</th>
                         </tr>
                     </thead>
-                    <tbody id="ordersBody">
-                        <tr><td colspan="6" style="text-align: center; padding: 40px;">Загрузка...</td></tr>
-                    </tbody>
+                    <tbody id="ordersBody"></tbody>
                 </table>
             </div>
         </div>
     </div>
 
     <script>
-        // Логин и пароль
-        const ADMIN_LOGIN = 'Felix';
-        const ADMIN_PASSWORD = 'Felix2013FelixBux';
+        // JSONBin настройки
+        const BIN_ID = 'ТВОЙ_BIN_ID';
+        const API_KEY = 'ТВОЙ_API_KEY';
+        
+        let orders = [];
 
-        // Проверка логина
-        function login() {
-            const user = document.getElementById('loginUsername').value;
-            const pass = document.getElementById('loginPassword').value;
-
-            if (user === ADMIN_LOGIN && pass === ADMIN_PASSWORD) {
-                document.getElementById('loginForm').style.display = 'none';
-                document.getElementById('adminPanel').style.display = 'block';
-                sessionStorage.setItem('admin', 'ok');
-                loadOrders();
-            } else {
-                document.getElementById('loginError').style.display = 'block';
+        async function loadOrders() {
+            try {
+                const response = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+                    headers: { 'X-Master-Key': API_KEY }
+                });
+                const data = await response.json();
+                orders = data.record.orders || [];
+                updateStats();
+                renderOrders();
+            } catch (e) {
+                console.log('Ошибка', e);
             }
         }
 
-        // Проверка сессии
-        if (sessionStorage.getItem('admin') === 'ok') {
-            document.getElementById('loginForm').style.display = 'none';
-            document.getElementById('adminPanel').style.display = 'block';
-        }
-
-        // Заказы
-        let orders = [];
-
-        function loadOrders() {
-            orders = JSON.parse(localStorage.getItem('orders') || '[]');
-            updateStats();
-            renderOrders();
+        async function saveOrders() {
+            try {
+                await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Master-Key': API_KEY
+                    },
+                    body: JSON.stringify({ orders: orders })
+                });
+            } catch (e) {
+                console.log('Ошибка сохранения', e);
+            }
         }
 
         function updateStats() {
@@ -151,81 +117,50 @@
             document.getElementById('waitingOrders').innerText = orders.filter(o => o.status === 'waiting').length;
         }
 
-        function payOrder(id) {
+        async function payOrder(id) {
             orders = orders.map(o => {
-                if (o.id === id) {
-                    o.status = 'paid';
-                    let recent = JSON.parse(localStorage.getItem('recentPurchases') || '[]');
-                    recent.push({ nick: o.nick, amount: o.amount, time: new Date().toLocaleTimeString() });
-                    if (recent.length > 10) recent = recent.slice(-10);
-                    localStorage.setItem('recentPurchases', JSON.stringify(recent));
-                }
+                if (o.id === id) o.status = 'paid';
                 return o;
             });
-            localStorage.setItem('orders', JSON.stringify(orders));
+            await saveOrders();
             loadOrders();
-        }
-
-        function cancelOrder(id) {
-            if (confirm('Отменить заказ?')) {
-                orders = orders.map(o => {
-                    if (o.id === id) o.status = 'cancelled';
-                    return o;
-                });
-                localStorage.setItem('orders', JSON.stringify(orders));
-                loadOrders();
-            }
-        }
-
-        function deleteOrder(id) {
-            if (confirm('Удалить заказ?')) {
-                orders = orders.filter(o => o.id !== id);
-                localStorage.setItem('orders', JSON.stringify(orders));
-                
-                let paid = orders.filter(o => o.status === 'paid');
-                let recent = paid.slice(-10).map(o => ({ nick: o.nick, amount: o.amount, time: o.time }));
-                localStorage.setItem('recentPurchases', JSON.stringify(recent));
-                
-                loadOrders();
-            }
         }
 
         function renderOrders() {
-            let tbody = document.getElementById('ordersBody');
-            
+            const tbody = document.getElementById('ordersBody');
             if (orders.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 40px;">Нет заказов</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Нет заказов</td></tr>';
                 return;
             }
-
-            tbody.innerHTML = orders.reverse().map(o => {
-                let statusClass = 'status-waiting';
-                let statusText = 'Ожидает';
-                if (o.status === 'paid') { statusClass = 'status-paid'; statusText = 'Оплачено'; }
-                if (o.status === 'cancelled') { statusClass = 'status-cancelled'; statusText = 'Отменен'; }
-
-                return `
-                    <tr>
-                        <td><strong style="color:#66ccff;">${o.nick}</strong></td>
-                        <td>${o.amount} Robux</td>
-                        <td style="color:#66ccff;">${o.code}</td>
-                        <td>${o.time}</td>
-                        <td><span class="status ${statusClass}">${statusText}</span></td>
-                        <td>
-                            ${o.status === 'waiting' 
-                                ? `<button class="action-btn pay-btn" onclick="payOrder(${o.id})">✓ Оплатить</button>
-                                   <button class="action-btn cancel-btn" onclick="cancelOrder(${o.id})">✗ Отменить</button>` 
-                                : `<button class="action-btn cancel-btn" onclick="deleteOrder(${o.id})">🗑 Удалить</button>`
-                            }
-                        </td>
-                    </tr>
-                `;
-            }).join('');
+            
+            tbody.innerHTML = orders.reverse().map(o => `
+                <tr>
+                    <td>${o.nick}</td>
+                    <td>${o.amount}</td>
+                    <td>${o.code}</td>
+                    <td>${o.time}</td>
+                    <td><span class="status-${o.status}">${o.status === 'paid' ? 'Оплачено' : 'Ожидает'}</span></td>
+                    <td>
+                        ${o.status === 'waiting' 
+                            ? `<button class="action-btn pay-btn" onclick="payOrder(${o.id})">✅ Оплатить</button>` 
+                            : ''}
+                    </td>
+                </tr>
+            `).join('');
         }
 
-        // Загружаем заказы если уже в админке
-        if (sessionStorage.getItem('admin') === 'ok') {
-            loadOrders();
+        function login() {
+            const user = document.getElementById('loginUser').value;
+            const pass = document.getElementById('loginPass').value;
+            
+            if (user === 'Felix' && pass === 'Felix2013FelixBux') {
+                document.getElementById('loginForm').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+                loadOrders();
+                setInterval(loadOrders, 5000);
+            } else {
+                alert('Неверно!');
+            }
         }
     </script>
 </body>
