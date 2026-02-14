@@ -3,18 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FelixBux - Технические работы</title>
+    <title>Технические работы</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }
-
-        @font-face {
-            font-family: 'Apple Emoji';
-            src: local('Apple Color Emoji'), local('Segoe UI Emoji'), local('Noto Color Emoji'), local('Android Emoji');
-            unicode-range: U+1F600-1F64F, U+1F300-1F5FF, U+1F680-1F6FF, U+2600-26FF;
         }
 
         body {
@@ -23,372 +17,94 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             color: white;
+            padding: 20px;
         }
 
-        .container {
-            max-width: 600px;
-            width: 100%;
-        }
-
-        /* Анимированный фон */
-        .bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-        }
-
-        .bg span {
-            position: absolute;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(0,153,255,0.3), rgba(0,102,204,0.1));
-            border-radius: 50%;
-            filter: blur(60px);
-            animation: float 20s infinite;
-        }
-
-        .bg span:nth-child(1) { top: -200px; left: -200px; }
-        .bg span:nth-child(2) { bottom: -200px; right: -200px; width: 800px; height: 800px; animation-delay: -5s; }
-        .bg span:nth-child(3) { top: 50%; left: 50%; transform: translate(-50%, -50%); width: 1000px; height: 1000px; animation: pulse 15s infinite; }
-
-        @keyframes float {
-            0%,100%{transform:translate(0,0)scale(1);}
-            33%{transform:translate(30px,-30px)scale(1.1);}
-            66%{transform:translate(-20px,20px)scale(0.9);}
-        }
-
-        @keyframes pulse {
-            0%,100%{opacity:0.5;transform:translate(-50%,-50%)scale(1);}
-            50%{opacity:0.8;transform:translate(-50%,-50%)scale(1.2);}
-        }
-
-        /* Карточка */
         .card {
             background: rgba(255,255,255,0.1);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 50px;
-            padding: 50px 40px;
-            text-align: center;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
-            animation: fadeIn 0.8s;
-        }
-
-        @keyframes fadeIn {
-            from{opacity:0;transform:translateY(20px);}
-            to{opacity:1;transform:translateY(0);}
-        }
-
-        /* Эмодзи бокс */
-        .emoji-box {
-            background: linear-gradient(135deg, #0066cc, #66ccff);
-            width: 120px;
-            height: 120px;
-            border-radius: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 30px;
-            box-shadow: 0 10px 30px rgba(102,204,255,0.5);
-            animation: pulseBox 2s infinite;
-        }
-
-        @keyframes pulseBox {
-            0%,100%{transform:scale(1);box-shadow:0 10px 30px rgba(102,204,255,0.5);}
-            50%{transform:scale(1.05);box-shadow:0 20px 40px rgba(102,204,255,0.8);}
-        }
-
-        /* Настоящие iOS эмодзи */
-        .emoji {
-            font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', 'Android Emoji', 'EmojiOne Color', 'Twemoji Mozilla', 'Twitter Color Emoji', sans-serif;
-            font-size: 64px;
-            line-height: 1;
-            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3));
-            display: inline-block;
-        }
-
-        /* Ряд эмодзи */
-        .emoji-row {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 20px 0 30px;
-        }
-
-        .emoji-row span {
-            font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
-            font-size: 48px;
-            animation: bounce 2s infinite;
-            animation-delay: calc(var(--i) * 0.2s);
-        }
-
-        .emoji-row span:nth-child(1) { --i: 1; }
-        .emoji-row span:nth-child(2) { --i: 2; }
-        .emoji-row span:nth-child(3) { --i: 3; }
-        .emoji-row span:nth-child(4) { --i: 4; }
-        .emoji-row span:nth-child(5) { --i: 5; }
-
-        @keyframes bounce {
-            0%,100%{transform:translateY(0);}
-            50%{transform:translateY(-10px);}
-        }
-
-        /* Статус */
-        .status {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255,255,255,0.1);
-            padding: 8px 20px;
             border-radius: 40px;
-            font-size: 14px;
-            margin-bottom: 25px;
+            padding: 40px;
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
             border: 1px solid rgba(255,255,255,0.2);
         }
 
-        .status span:last-child {
-            font-family: 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif;
-        }
-
-        .dot {
-            width: 8px;
-            height: 8px;
-            background: #66ccff;
-            border-radius: 50%;
-            animation: blink 1.5s infinite;
-        }
-
-        @keyframes blink {
-            0%,100%{opacity:1;}
-            50%{opacity:0.3;}
-        }
-
-        /* Текст */
         h1 {
-            font-size: 48px;
-            font-weight: 700;
-            margin-bottom: 15px;
+            font-size: 42px;
+            margin-bottom: 10px;
             background: linear-gradient(135deg, #fff, #66ccff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        p {
-            font-size: 18px;
-            opacity: 0.9;
-            margin-bottom: 30px;
-            font-family: 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif;
+        .date {
+            font-size: 24px;
+            color: #66ccff;
+            margin: 20px 0;
+            font-weight: bold;
         }
 
-        /* Прогресс */
         .progress {
             width: 100%;
-            height: 8px;
+            height: 10px;
             background: rgba(255,255,255,0.1);
             border-radius: 10px;
-            margin: 35px 0;
+            margin: 30px 0;
             overflow: hidden;
         }
 
         .bar {
+            width: 30%;
             height: 100%;
-            width: 0%;
             background: linear-gradient(90deg, #0066cc, #66ccff);
             border-radius: 10px;
-            animation: progress 3s infinite;
+            animation: move 2s infinite;
         }
 
-        @keyframes progress {
-            0%{width:0%;}
-            50%{width:70%;}
-            100%{width:0%;}
+        @keyframes move {
+            0% { width: 0%; margin-left: 0%; }
+            50% { width: 50%; margin-left: 50%; }
+            100% { width: 0%; margin-left: 100%; }
         }
 
-        /* Счетчик */
-        .counter-box {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin: 30px 0;
-        }
-
-        .counter-box span:first-child {
-            font-family: 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif;
-            font-size: 32px;
-        }
-
-        .counter {
-            font-size: 42px;
-            font-weight: 700;
-            color: #66ccff;
-        }
-
-        .counter-text {
-            font-size: 16px;
-            opacity: 0.7;
-        }
-
-        /* Кнопка */
         .btn {
             background: linear-gradient(135deg, #0066cc, #66ccff);
             border: none;
             color: white;
-            padding: 16px 40px;
-            border-radius: 40px;
+            padding: 15px 40px;
+            border-radius: 30px;
             font-size: 18px;
-            font-weight: 600;
             cursor: pointer;
-            transition: 0.3s;
-            box-shadow: 0 10px 25px rgba(102,204,255,0.3);
             margin-top: 20px;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .btn span {
-            font-family: 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif;
-            font-size: 24px;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(102,204,255,0.5);
-        }
-
-        /* Уведомление */
-        .notif {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 40px;
-            padding: 15px 25px;
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            animation: slideIn 0.3s;
-            z-index: 1000;
-            font-family: 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif;
-        }
-
-        @keyframes slideIn {
-            from{transform:translateX(100%);opacity:0;}
-            to{transform:translateX(0);opacity:1;}
-        }
-
-        /* Адаптация */
-        @media (max-width: 600px) {
-            .card { padding: 30px 20px; }
-            h1 { font-size: 32px; }
-            .emoji-box { width: 80px; height: 80px; }
-            .emoji { font-size: 40px; }
-            .emoji-row span { font-size: 32px; }
+            font-weight: 600;
         }
     </style>
 </head>
 <body>
-    <div class="bg">
-        <span></span>
-        <span></span>
-        <span></span>
-    </div>
-
-    <div class="container">
-        <div class="card">
-            <!-- Ряд iOS эмодзи -->
-            <div class="emoji-row">
-                <span>🔧</span>
-                <span>⚙️</span>
-                <span>🔨</span>
-                <span>🛠️</span>
-                <span>⚡</span>
-            </div>
-
-            <div class="status">
-                <span class="dot"></span>
-                <span>🔧 Технические работы</span>
-            </div>
-
-            <h1>Скоро вернёмся</h1>
-            <p>👨‍💻 Ведутся работы по улучшению сервиса 🚀</p>
-
-            <div class="progress">
-                <div class="bar"></div>
-            </div>
-
-            <div class="counter-box">
-                <span>🔄</span>
-                <span class="counter" id="counter">0</span>
-                <span class="counter-text">обновлений</span>
-            </div>
-
-            <button class="btn" onclick="checkStatus()">
-                <span>🔍</span>
-                Проверить статус
-            </button>
+    <div class="card">
+        <h1>Технические работы</h1>
+        <p>Сайт временно недоступен</p>
+        
+        <div class="date">5 дней</div>
+        
+        <div class="progress">
+            <div class="bar"></div>
         </div>
+        
+        <p>Ведутся работы по улучшению сервиса</p>
+        <p>Приносим извинения за неудобства</p>
+        
+        <button class="btn" onclick="check()">Проверить статус</button>
     </div>
 
     <script>
-        let count = 0;
-        let interval = setInterval(() => {
-            count++;
-            document.getElementById('counter').textContent = count;
-        }, 1000);
-
-        function showNotif(msg, emoji = '🔧') {
-            const notif = document.createElement('div');
-            notif.className = 'notif';
-            notif.innerHTML = `<span>${emoji}</span> ${msg}`;
-            document.body.appendChild(notif);
-            setTimeout(() => notif.remove(), 3000);
+        function check() {
+            alert('Работы продолжаются. Осталось 5 дней');
         }
-
-        function checkStatus() {
-            showNotif('Проверяем статус...', '🔍');
-            setTimeout(() => {
-                showNotif('Работы ещё ведутся', '⏳');
-            }, 1500);
-        }
-
-        // Блокировка F5
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'F5' || (e.ctrlKey && e.key === 'r')) {
-                e.preventDefault();
-                showNotif('Обновление через кнопку', '🔄');
-            }
-        });
-
-        // Приветствие
-        setTimeout(() => {
-            showNotif('Привет! Мы обновляем сайт', '👋');
-        }, 1000);
-
-        // Случайные уведомления
-        const messages = [
-            { msg: 'Обновляем базу данных...', emoji: '🔄' },
-            { msg: 'Настраиваем сервера...', emoji: '⚙️' },
-            { msg: 'Исправляем ошибки...', emoji: '🔧' },
-            { msg: 'Загружаем обновления...', emoji: '📦' },
-            { msg: 'Добавляем новые функции...', emoji: '✨' }
-        ];
-
-        setInterval(() => {
-            const random = messages[Math.floor(Math.random() * messages.length)];
-            showNotif(random.msg, random.emoji);
-        }, 8000);
     </script>
 </body>
 </html>
